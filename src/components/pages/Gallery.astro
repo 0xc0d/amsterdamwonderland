@@ -169,10 +169,21 @@ const items = [
 
 ---
 
-<Base locale={locale} path="/gallery" title={d.gallery.metaTitle} description={d.gallery.metaDescription}>
+<Base
+  locale={locale}
+  path="/gallery"
+  title={d.gallery.metaTitle}
+  description={d.gallery.metaDescription}
+  pageType="ImageGallery"
+  crumbs={[{ name: d.nav.gallery }]}
+>
   <section class="shell head">
     <h1 class="display-lg">{d.gallery.title}</h1>
     <p class="lead">{d.gallery.lead}</p>
+    <div class="intro prose">
+      <p>{d.gallery.bodyA}</p>
+      <p>{d.gallery.bodyB}</p>
+    </div>
   </section>
 
   <section class="shell section--tight">
@@ -192,6 +203,14 @@ const items = [
 
 <style>
   .head { padding-block-start: clamp(2rem, 6vw, 4rem); display: grid; gap: var(--s2); }
+  /* Two columns so the added prose does not push the photographs a screen down.
+     The lead is serif and short; this is body copy and sits beside it. */
+  .intro { max-width: 58ch; }
+  @media (min-width: 1000px) {
+    .head { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--s5); }
+    .head h1, .head .eyebrow { grid-column: 1 / -1; }
+    .intro { margin-block-start: 0; }
+  }
   .acc { color: var(--electric); }
 
   /* Masonry via columns: every photo keeps its own aspect ratio, nothing is

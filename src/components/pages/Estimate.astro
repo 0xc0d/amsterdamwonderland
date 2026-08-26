@@ -9,7 +9,13 @@ const { locale } = Astro.props;
 const d = t(locale);
 ---
 
-<Base locale={locale} path="/estimate" title={d.estimate.metaTitle} description={d.estimate.metaDescription}>
+<Base
+  locale={locale}
+  path="/estimate"
+  title={d.estimate.metaTitle}
+  description={d.estimate.metaDescription}
+  crumbs={[{ name: d.nav.estimate }]}
+>
   <section class="shell head">
     <p class="eyebrow acc">{d.estimate.eyebrow}</p>
     <h1 class="display-lg">{d.estimate.title}</h1>

@@ -3,8 +3,10 @@ import { Image } from "astro:assets";
 import Base from "../../layouts/Base.astro";
 import WorkshopCard from "../WorkshopCard.astro";
 import BookingBar from "../BookingBar.astro";
+import Faq from "../Faq.astro";
 import { t, localePath, type Locale } from "../../i18n";
 import { getWorkshops } from "../../content/workshops";
+import { generalFaq } from "../../content/faq";
 
 import hero from "../../assets/hero-collage.png";
 import participant from "../../assets/participant-drawing.jpg";
@@ -19,6 +21,16 @@ interface Props { locale: Locale; }
 const { locale } = Astro.props;
 const d = t(locale);
 const workshops = getWorkshops(locale);
+const faq = generalFaq(locale);
+
+/* The old 11vw cap on the H1 existed because "WORKSHOPS" is a single
+   unbreakable word wider than a 390px viewport at --step-5. The H1 is now a
+   phrase, and the Dutch one contains "KUNSTWORKSHOPS" at 14 characters, so the
+   cap is derived from the longest word rather than hard-coded. 136 approximates
+   the usable width in vw divided by the cap-height advance of Archivo 800, and
+   it is clamped to the old 11vw so English never renders larger than before. */
+const longestWord = Math.max(...d.home.heroTitle.split(/\s+/).map((w) => w.length));
+const titleCap = `${Math.min(11, Math.round(1360 / longestWord) / 10)}vw`;
 ---
 
 <Base
@@ -26,16 +38,16 @@ const workshops = getWorkshops(locale);
   path="/"
   title={d.home.metaTitle}
   description={d.home.metaDescription}
-  structuredData
+  faq={faq}
 >
   <!-- ============ HERO — Marie & Mette's own words, in their order ============ -->
   <section class="shell hero">
-    <h1 class="display-xl htitle">{d.home.heroTitle}</h1>
+    <h1 class="display-xl htitle" style={`--h1-cap:${titleCap}`}>{d.home.heroTitle}</h1>
 
     <div class="hero-art">
       <Image
         src={hero}
-        alt="Wonderland Workshops: cut-out collage of a figure with the studio name across it"
+        alt={locale === "nl" ? "Wonderland Workshops: collage van een figuur met de naam van het atelier eroverheen" : "Wonderland Workshops: cut-out collage of a figure with the studio name across it"}
         widths={[600, 1000, 1600, 2000]}
         sizes="(max-width: 900px) 100vw, 1400px"
         loading="eager"
@@ -80,8 +92,8 @@ const workshops = getWorkshops(locale);
     </div>
 
     <div class="trio">
-      <Image src={participant} alt="Two participants laughing while holding up a drawing" class="ratio-43" widths={[400,700,1100]} loading="lazy" />
-      <Image src={food} alt="Fruit and vegetables prepared for a workshop" class="ratio-43" widths={[400,700,1100]} loading="lazy" />
+      <Image src={participant} alt={locale === "nl" ? "Twee deelnemers lachen met een tekening uit de workshop in Amsterdam" : "Two participants laughing while holding up a drawing made in the workshop"} class="ratio-43" widths={[400,700,1100]} loading="lazy" />
+      <Image src={food} alt={locale === "nl" ? "Fruit en groenten klaargezet voor de slow juice tijdens een workshop" : "Fruit and vegetables prepared for the slow juice served during a workshop"} class="ratio-43" widths={[400,700,1100]} loading="lazy" />
       <Image src={concentrationPair}
              alt={locale === "nl" ? "Twee deelnemers tekenen samen aan de tafel" : "Two participants drawing together at the table"}
              class="ratio-43" widths={[400,700,1100]} loading="lazy" />
@@ -95,14 +107,17 @@ const workshops = getWorkshops(locale);
       <a class="btn btn--ghost" href={localePath(locale, "/gallery")}>{d.home.galleryMore}</a>
     </div>
     <div class="gal section--tight">
-      <Image src={collage} alt="A magazine collage made in a mixed media workshop" class="ratio-45" widths={[400,800]} loading="lazy" />
-      <Image src={ink} alt="Ink portrait in progress" class="ratio-45" widths={[400,800]} loading="lazy" />
+      <Image src={collage} alt={locale === "nl" ? "Collage van tijdschriftpapier gemaakt in de mixed media-workshop" : "A magazine collage made in the mixed media art workshop in Amsterdam"} class="ratio-45" widths={[400,800]} loading="lazy" />
+      <Image src={ink} alt={locale === "nl" ? "Inktportret in de maak tijdens een kunstworkshop in het atelier" : "An ink portrait in progress during an art workshop in the atelier"} class="ratio-45" widths={[400,800]} loading="lazy" />
       <Image src={groupLaughing}
              alt={locale === "nl" ? "Een groep lacht tijdens een workshop" : "A group laughing during a workshop"}
              class="ratio-45" widths={[400,800]} loading="lazy" />
-      <Image src={totes} alt="Printed tote bags" class="ratio-45" widths={[400,688]} loading="lazy" />
+      <Image src={totes} alt={locale === "nl" ? "Linnen tassen gezeefdrukt in de merch-workshop" : "Tote bags silk screened in the make your own merch workshop"} class="ratio-45" widths={[400,688]} loading="lazy" />
     </div>
   </section>
+
+  <!-- ============ FAQ — the phrasings people actually search ============ -->
+  <Faq eyebrow={d.home.faqEyebrow} title={d.home.faqTitle} items={faq} />
 </Base>
 
 <style>
@@ -111,12 +126,12 @@ const workshops = getWorkshops(locale);
   .cards--after-rule { margin-block-start: var(--s3); }
   /* Hero */
   .hero { padding-block-start: clamp(2rem, 5vw, 4rem); }
-  /* "WORKSHOPS" is one unbreakable word: at --step-5 it is wider than a 390px
-     viewport, which pushed the page 1px sideways. Cap by viewport width so the
-     longest word always fits; on desktop --step-5 is the smaller value and wins. */
+  /* The longest word in the H1 must fit a 390px viewport, or the primary
+     keyword gets hyphenated across two lines. --h1-cap is computed per locale
+     in the frontmatter; on desktop --step-5 is the smaller value and wins. */
   .htitle {
     margin-block-start: 0;
-    font-size: min(var(--step-5), 11vw);
+    font-size: min(var(--step-5), var(--h1-cap, 11vw));
   }
   .hero-art {
     margin-block-start: clamp(1.25rem, 3vw, 2rem);

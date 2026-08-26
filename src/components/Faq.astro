@@ -1,0 +1,122 @@
+---
+/**
+ * FAQ block. Rendered on the home page and on each workshop page.
+ *
+ * The same array is handed to src/lib/seo.ts to build the FAQPage markup, so
+ * there is exactly one copy of every answer. Schema that says something the
+ * page does not is a guidelines violation, and this shape makes it impossible.
+ *
+ * <details> rather than a JS accordion: it is keyboard accessible for free, it
+ * works with no JavaScript, and crucially the answer text is in the HTML whether
+ * the panel is open or closed, so crawlers read all of it.
+ */
+import type { FaqItem } from "../lib/seo";
+
+interface Props {
+  title: string;
+  eyebrow: string;
+  items: FaqItem[];
+  /** Open the first one, so the section does not read as an empty list. */
+  openFirst?: boolean;
+}
+const { title, eyebrow, items, openFirst = true } = Astro.props;
+/* Unique per instance, so two FAQ blocks on one page cannot collide. */
+const headingId = `faq-${Math.abs(hash(title))}`;
+function hash(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return h;
+}
+---
+
+{items.length > 0 && (
+  <section class="shell section" aria-labelledby={headingId}>
+    <div class="rule">
+      <p class="eyebrow acc">{eyebrow}</p>
+    </div>
+
+    <div class="grid12 wrap">
+      <div class="lede">
+        <h2 id={headingId} class="display-md">{title}</h2>
+      </div>
+
+      <div class="list">
+        {items.map((f, i) => (
+          <details class="qa" open={openFirst && i === 0}>
+            <summary>
+              <span class="q">{f.q}</span>
+              <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <p class="a">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .acc { color: var(--electric); }
+  .wrap { margin-block-start: var(--s3); }
+  .lede { grid-column: 1 / span 4; }
+  .list { grid-column: 6 / span 7; }
+  @media (max-width: 900px) {
+    .lede { grid-column: 1 / -1; }
+    .list { grid-column: 1 / -1; margin-block-start: var(--s3); }
+  }
+
+  .qa { border-top: var(--rule) solid var(--line); }
+  .qa:last-child { border-bottom: var(--rule) solid var(--line); }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s2);
+    padding-block: var(--s2);
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover .q { color: var(--pink); }
+  details[open] summary .q { color: var(--electric); }
+
+  .q {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-0);
+    line-height: 1.25;
+    transition: color .16s ease;
+  }
+
+  /* A plus that becomes a minus. Two bars, one of which rotates away. */
+  .chev {
+    position: relative;
+    flex: 0 0 auto;
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+  .chev::before,
+  .chev::after {
+    content: "";
+    position: absolute;
+    background: var(--electric);
+    inset-inline: 0;
+    top: calc(50% - 1px);
+    height: 2px;
+  }
+  .chev::after { transition: transform .18s ease; transform: rotate(90deg); }
+  details[open] .chev::after { transform: rotate(0deg); }
+
+  .a {
+    margin: 0 0 var(--s3);
+    max-width: 62ch;
+    color: var(--ink-soft);
+    font-size: var(--step-0);
+    line-height: 1.55;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chev::after { transition: none; }
+  }
+</style>

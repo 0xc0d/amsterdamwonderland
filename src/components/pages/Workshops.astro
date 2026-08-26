@@ -26,10 +26,18 @@ const customImg = custom?.image && custom.image in customImages
   : null;
 ---
 
-<Base locale={locale} path="/workshops" title={d.workshopsPage.metaTitle} description={d.workshopsPage.metaDescription}>
+<Base
+  locale={locale}
+  path="/workshops"
+  title={d.workshopsPage.metaTitle}
+  description={d.workshopsPage.metaDescription}
+  pageType="CollectionPage"
+  crumbs={[{ name: d.nav.workshops }]}
+>
   <section class="shell head">
     <h1 class="display-lg">{d.workshopsPage.title}</h1>
     <p class="lead">{d.workshopsPage.lead}</p>
+    <p class="intro prose">{d.workshopsPage.intro}</p>
   </section>
 
   <section class="shell section--tight">
@@ -70,6 +78,13 @@ const customImg = custom?.image && custom.image in customImages
 
 <style>
   .head { padding-block-start: clamp(2rem, 6vw, 4rem); display: grid; gap: var(--s2); }
+  /* Beside the serif lead on desktop, so the added paragraph does not push the
+     first card below the fold. */
+  .intro { max-width: 60ch; }
+  @media (min-width: 1000px) {
+    .head { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--s5); }
+    .head h1 { grid-column: 1 / -1; }
+  }
   /* The eyebrow row belongs to the cards below it, so this is a small gap, not
      another full section break. It used to carry section--tight as well, which
      stacked two 80px margins between the page lead and the first card. */

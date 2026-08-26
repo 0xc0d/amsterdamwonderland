@@ -1,70 +1,163 @@
 ---
+/**
+ * About.
+ *
+ * Rebuilt twice. The first version put prose, portraits and facts in grid
+ * columns 1, 6 and 10, which left two dead gaps across the page. The second
+ * fixed the gaps but kept 170px portraits in a sidebar next to a fact list, and
+ * Ali's read of it was right on both counts: it looked like a staff directory,
+ * and the fact list (Where / Languages / Group size) repeated three things the
+ * footer already carries on every single page.
+ *
+ * So: the portraits are the visual anchor now, at their honest maximum size,
+ * paired with the prose as a spread. The fact list is gone, replaced by a block
+ * that actually does something, the address as a link into the reader's map app.
+ * A wide photograph of a real session closes the page, because the one thing an
+ * About page for two workshop artists should show is them working.
+ *
+ * THE PORTRAIT SIZE IS A HARD CONSTRAINT, NOT A CHOICE. artist-mette.jpg is
+ * 327x402 on disk and there is no larger copy (photos-new/auteursfoto
+ * pasfoto.jpg is byte-for-byte the same dimensions). Rendered above ~327px it
+ * visibly softens, so the diptych is capped there. artist-marie.jpg is
+ * 1062x1120 and could go much larger; matching them is deliberate, because two
+ * portraits at different sizes read as a mistake. Raise BOTH the day a real
+ * photograph of Mette arrives.
+ *
+ * The two photographs also clash in register: Marie's is a candid in the studio,
+ * Mette's is a formal grey-backdrop headshot. Square crops and one identical
+ * border treatment are the most that can be done about that in CSS.
+ */
 import { Image } from "astro:assets";
 import Base from "../../layouts/Base.astro";
 import BookingBar from "../BookingBar.astro";
-import { t, localePath, type Locale } from "../../i18n";
-import { MIN_GROUP, STUDIO_CAPACITY } from "../../lib/pricing";
+import Icon from "../Icon.astro";
+import { t, type Locale } from "../../i18n";
+import { ADDRESS_LINE, mapsHref } from "../../lib/config";
 
 import portraitMarie from "../../assets/artist-marie.jpg";
 import portraitMette from "../../assets/artist-mette.jpg";
+import studio from "../../assets/artist-teaching.jpg";
+/* TO ADD MARIE AT WORK: drop the file in as src/assets/artist-marie-camera.jpg,
+   uncomment the import below, and add it to the `atWork` array. The section
+   renders one photo full width and two side by side, so nothing else changes.
+   Ali pasted this photo into chat rather than saving it, so the file is not on
+   disk yet: Marie photographing something under a market canopy on the street. */
+// import marieAtWork from "../../assets/artist-marie-camera.jpg";
 
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
 const d = t(locale);
 
 /* Proper nouns, identical in both languages; only the alt text is localised.
-   Rendered at 170px because artist-mette.jpg is only 327x402 on disk. A wider
-   render goes soft. Raise this the day a larger file arrives. */
+   The alt now names the studio and the city, because Google Images is a real
+   entry point for an art business and "Portrait of Marie" said nothing. */
 const artists = [
-  { name: "Marie", src: portraitMarie,
-    alt: locale === "nl" ? "Portret van Marie" : "Portrait of Marie" },
-  { name: "Mette", src: portraitMette,
-    alt: locale === "nl" ? "Portret van Mette" : "Portrait of Mette" },
+  {
+    name: "Marie",
+    src: portraitMarie,
+    alt: locale === "nl"
+      ? "Marie, kunstenaar en oprichter van Wonderland Workshops, in het atelier in Amsterdam"
+      : "Marie, artist and co-founder of Wonderland Workshops, in the Amsterdam atelier",
+  },
+  {
+    name: "Mette",
+    src: portraitMette,
+    alt: locale === "nl"
+      ? "Mette, kunstenaar en oprichter van Wonderland Workshops in Amsterdam"
+      : "Mette, artist and co-founder of Wonderland Workshops in Amsterdam",
+  },
 ];
 
-const facts = [
-  { label: d.about.whereTitle, value: d.about.where },
-  { label: d.about.languagesTitle, value: d.about.languages },
-  { label: d.about.capacityTitle, value: d.about.capacity },
+/* Marie and Mette doing the actual job. The page had none of this before, which
+   for two workshop artists was the strangest omission on the site. One photo
+   renders full width; two render as a pair. */
+const atWork = [
+  {
+    src: studio,
+    alt: locale === "nl"
+      ? "Mette begeleidt twee deelnemers tijdens een kunstworkshop in het atelier in Amsterdam"
+      : "Mette guiding two participants during an art workshop in the Amsterdam atelier",
+    caption: d.about.studioCaption,
+  },
+  // { src: marieAtWork,
+  //   alt: locale === "nl"
+  //     ? "Marie fotografeert op straat in Amsterdam"
+  //     : "Marie photographing on the street in Amsterdam",
+  //   caption: d.about.marieCaption },
 ];
 ---
 
-<Base locale={locale} path="/about" title={d.about.metaTitle} description={d.about.metaDescription}>
+<Base
+  locale={locale}
+  path="/about"
+  title={d.about.metaTitle}
+  description={d.about.metaDescription}
+  pageType="AboutPage"
+  crumbs={[{ name: d.nav.about }]}
+>
   <section class="shell head">
     <p class="eyebrow acc">{d.about.eyebrow}</p>
     <h1 class="display-lg">{d.about.title}</h1>
     <p class="lead">{d.about.lead}</p>
   </section>
 
+  <!-- The spread: portraits carrying the left half, their own words the right. -->
   <section class="shell section--tight grid12">
+    <div class="who">
+      {artists.map((a) => (
+        <figure class="portrait">
+          <Image src={a.src} alt={a.alt} widths={[327, 654]} sizes="(max-width: 700px) 44vw, 327px" loading="eager" />
+          <figcaption class="pname">{a.name}</figcaption>
+        </figure>
+      ))}
+    </div>
+
     <div class="body prose">
       <p>{d.about.bodyA}</p>
       <p>{d.about.bodyB}</p>
       <p>{d.about.bodyC}</p>
     </div>
-
-    <aside class="side">
-      <div class="who">
-        {artists.map((a) => (
-          <figure class="portrait">
-            <Image src={a.src} alt={a.alt} class="ratio-45"
-                   widths={[170, 340]} sizes="170px" loading="eager" />
-            <figcaption class="pname">{a.name}</figcaption>
-          </figure>
-        ))}
-      </div>
-
-      <dl class="facts">
-        {facts.map((f) => (
-          <div class="fact">
-            <dt class="eyebrow muted">{f.label}</dt>
-            <dd>{f.value}</dd>
-          </div>
-        ))}
-      </dl>
-    </aside>
   </section>
 
+  <!-- Them at work. The one thing this page was missing entirely. -->
+  <section class="shell section atwork">
+    <div class="rule">
+      <p class="eyebrow acc">{d.about.atWorkTitle}</p>
+    </div>
+    <div class:list={["shots", atWork.length > 1 && "shots--pair"]}>
+      {atWork.map((p) => (
+        <figure class="band">
+          <Image src={p.src} alt={p.alt}
+                 widths={[800, 1400, 2000]}
+                 sizes={atWork.length > 1 ? "(max-width: 800px) 100vw, 46vw" : "(max-width: 900px) 100vw, 1400px"}
+                 loading="lazy" />
+          <figcaption class="small muted cap">{p.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <!-- Actionable, unlike the fact list it replaces. Last, because it is what you
+       want once you have decided, not while you are still reading. -->
+  <section class="shell section find">
+    <div class="rule">
+      <p class="eyebrow acc">{d.about.findUsTitle}</p>
+    </div>
+    <div class="grid12 findgrid">
+      <div class="findbody">
+        <p class="findlead">{d.about.findUsBody}</p>
+        <a class="maplink" href={mapsHref} target="_blank" rel="noopener">
+          <Icon name="pin" size="1.15rem" />
+          <span class="addr">{ADDRESS_LINE}</span>
+          <span class="go">{d.about.directions} &rarr;</span>
+        </a>
+      </div>
+      <dl class="langs">
+        <dt class="eyebrow muted">{d.about.languagesTitle}</dt>
+        <dd>{d.about.languages}</dd>
+      </dl>
+    </div>
+  </section>
 
   <BookingBar locale={locale} />
 </Base>
@@ -72,23 +165,40 @@ const facts = [
 <style>
   .head { padding-block-start: clamp(2rem, 6vw, 4rem); display: grid; gap: var(--s2); }
   .acc { color: var(--electric); }
-  /* Two columns, not three. The previous version put prose, portraits and
-     facts in columns 1, 6 and 10, which left two dead gaps down the page. */
-  .body  { grid-column: 1 / span 6; }
-  .side  { grid-column: 8 / span 5; display: grid; gap: var(--s4); align-content: start; }
-  /* Hard-capped at 170px each. The sidebar is wide enough for 258px, but
-     artist-mette.jpg is 327px wide, so anything larger renders upscaled. */
-  .who   { display: grid; grid-template-columns: repeat(2, 10.625rem); gap: var(--s2); justify-content: start; }
-  @media (max-width: 900px) {
-    .body { grid-column: 1 / -1; }
-    .side { grid-column: 1 / -1; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); gap: var(--s4); }
-    .who  { grid-template-columns: repeat(2, minmax(0, 10.625rem)); }
+
+  /* Portraits first in the source order and first on the page: they are the
+     answer to "who are we?", which is the question the eyebrow asks. */
+  .who {
+    grid-column: 1 / span 6;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 20.4375rem));
+    gap: var(--s2);
+    align-content: start;
   }
-  @media (max-width: 640px) {
-    .side { grid-template-columns: minmax(0, 1fr); }
+  .body { grid-column: 8 / span 5; }
+
+  @media (max-width: 1000px) {
+    .who  { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 20.4375rem)); }
+    .body { grid-column: 1 / -1; margin-block-start: var(--s4); }
   }
+  @media (max-width: 700px) {
+    /* Still two up, not stacked: side by side is what makes them read as a pair
+       rather than as two separate people. */
+    .who { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s1); }
+  }
+
   .portrait { margin: 0; }
-  .portrait img { border: var(--rule) solid var(--line); }
+  /* Square crops. The two source photographs are 1062x1120 and 327x402, i.e.
+     different aspect ratios as well as different sizes, so a shared square is
+     what makes them look like one diptych. */
+  .portrait img {
+    border: var(--rule) solid var(--line);
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center 22%;
+    width: 100%;
+    height: auto;
+  }
   .pname {
     margin-block-start: 0.6rem;
     font-family: var(--font-display);
@@ -97,6 +207,50 @@ const facts = [
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
-  .fact { border-top: var(--rule) solid var(--line); padding-block: 0.7rem; }
-  .fact dd { margin-block-start: 0.3rem; }
+
+  .findgrid { margin-block-start: var(--s3); }
+  .findbody { grid-column: 1 / span 7; }
+  .langs    { grid-column: 9 / span 4; }
+  @media (max-width: 900px) {
+    .findbody { grid-column: 1 / -1; }
+    .langs    { grid-column: 1 / -1; margin-block-start: var(--s3); }
+  }
+  .findlead { max-width: 52ch; }
+  .langs dt { color: var(--ink-soft); }
+  .langs dd { margin-block-start: 0.3rem; }
+
+  /* A real target, not a hyperlink buried in a sentence: people open this on a
+     phone while standing on a canal. */
+  .maplink {
+    margin-block-start: var(--s3);
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    padding: 0.7rem 0.9rem;
+    border: var(--rule) solid var(--line);
+    text-decoration: none;
+    transition: background-color .16s ease, color .16s ease;
+  }
+  .maplink:hover { background: var(--electric); color: var(--electric-fg); }
+  .maplink:hover :global(.ico) { stroke: currentColor; }
+  .addr { font-weight: 700; }
+  .go { color: var(--ink-soft); font-size: var(--step--1); }
+  .maplink:hover .go { color: currentColor; }
+
+  .shots { margin-block-start: var(--s3); display: grid; gap: var(--s2); }
+  .shots--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 800px) { .shots--pair { grid-template-columns: minmax(0, 1fr); } }
+  .band img { border: var(--rule) solid var(--line); width: 100%; }
+  .band { margin: 0; }
+  /* One photo at the full 1400px shell renders 880px tall off a 3:2 original,
+     which swallows the page. Capped as a band. Once there are two they sit at
+     ~46vw each and need no cap, so the rule is scoped to the single case. */
+  .shots:not(.shots--pair) .band img {
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    object-position: center 42%;
+    height: auto;
+  }
+  .cap { margin-block-start: 0.6rem; }
 </style>

@@ -17,6 +17,7 @@ export const nl: Dict = {
   label: "Nederlands",
 
   nav: {
+    home: "Home",
     workshops: "Workshops",
     gallery: "Galerie",
     about: "Over ons",
@@ -43,10 +44,13 @@ export const nl: Dict = {
   },
 
   home: {
-    metaTitle: "Wonderland Workshops | Kunstworkshops in Amsterdam",
+    /* Keyword eerst, merk daarna. Zie de toelichting in en.ts. */
+    metaTitle: "Kunstworkshops in Amsterdam | Bedrijfsuitje & Teambuilding",
     metaDescription:
-      "Wij geven kunstworkshops in Amsterdam voor bedrijven, teams en groepen. Twee Amsterdamse kunstenaars, ons atelier op de Wallen, alle materialen inbegrepen.",
-    heroTitle: "Wonderland Workshops",
+      "Creatieve kunstworkshops in Amsterdam voor bedrijfsuitjes, teambuilding en groepen. Twee Amsterdamse kunstenaars, atelier op de Wallen, materiaal inbegrepen.",
+    /* De H1. Stond op "Wonderland Workshops"; het merk staat nog in de header,
+       de <title> en de footer van elke pagina. */
+    heroTitle: "Kunstworkshops in Amsterdam",
 
     // THEIRS, verbatim from the general text.
     heroLead:
@@ -70,15 +74,21 @@ export const nl: Dict = {
 
     galleryEyebrow: "Galerie",
     galleryMore: "Bekijk de galerie",
+
+    faqEyebrow: "Vragen",
+    faqTitle: "Een workshop boeken",
   },
 
   workshopsPage: {
-    metaTitle: "Workshops | Wonderland Workshops Amsterdam",
+    metaTitle: "Workshops in Amsterdam voor bedrijven en groepen",
     metaDescription:
-      "Maak je eigen merch, model tekenen, mixed media en workshops op maat voor bedrijven, teams en groepen in Amsterdam.",
+      "Vier kunstworkshops in Amsterdam: maak je eigen merch, model tekenen, mixed media, of een workshop op maat. Voor bedrijfsuitjes, teambuilding en groepen.",
     eyebrow: "Workshops",
-    title: "De workshops",
+    title: "Vier kunstworkshops in Amsterdam",
     lead: "Van 6 tot 12 personen in ons atelier, en voor zoveel mensen als je wilt op je kantoor of locatie.",
+    /* Zie de toelichting in en.ts. */
+    intro:
+      "Drie hiervan zijn vaste workshops waaruit je kunt kiezen, en de vierde wordt rond jullie gelegenheid geschreven. Kies je voor een team: de merch-workshop is de enige die eindigt met één object waar de hele groep achter staat, de modeltekensessie is het meest geconcentreerd, en mixed media is het losste en het snelste.",
     duration: "Duur",
     format: "Vorm",
     price: "Prijs",
@@ -94,22 +104,29 @@ export const nl: Dict = {
     customTitle: "U vraagt, wij draaien",
     customPriceNote: "Prijs per gelegenheid. Vertel ons wat je in gedachten hebt.",
     customLink: "De workshop op maat",
+    faqEyebrow: "Vragen",
+    faqTitle: "Over deze workshop",
   },
 
   gallery: {
-    metaTitle: "Galerie | Wonderland Workshops Amsterdam",
+    metaTitle: "Galerie: kunstworkshops in Amsterdam | Wonderland Workshops",
     metaDescription:
-      "Foto's van onze kunstworkshops in Amsterdam: het atelier, de sessies en het werk dat erin gemaakt wordt.",
+      "Foto's van onze kunstworkshops in Amsterdam: het atelier op de Wallen, de sessies, en de tekeningen, schilderijen en prints die erin gemaakt worden.",
     eyebrow: "Galerie",
-    title: "Galerie",
+    title: "Galerie kunstworkshops",
     lead: "Het atelier, de sessies, en wat mensen erin maken.",
+    /* Deze pagina had 30 woorden tekst bij 71 foto's. */
+    bodyA:
+      "Alles hier is gemaakt in ons atelier op de Amsterdamse Wallen, of op het kantoor van een bedrijf, door mensen die meestal jaren niets hadden getekend. Inktportretten, houtskoolfiguren, collage, en linnen tassen en shirts geprint in de merch-workshop.",
+    bodyB:
+      "Als je wilt zien hoe een workshop er echt uitziet voordat je er een boekt: dit is het. Tafels vol papier, werk dat op de vloer ligt te drogen, en een groep die twee uur verder is dan ze had verwacht te komen.",
     note: "",
   },
 
   about: {
-    metaTitle: "Over ons | Wonderland Workshops Amsterdam",
+    metaTitle: "Marie & Mette, Amsterdamse kunstenaars | Wonderland Workshops",
     metaDescription:
-      "Twee Amsterdamse kunstenaars die kunstworkshops geven vanuit een atelier op de Wallen.",
+      "Marie en Mette ontmoetten elkaar op de Gerrit Rietveld Academie en geven kunstworkshops in Amsterdam vanuit hun atelier op de Wallen, voor bedrijven en groepen.",
     eyebrow: "Wie zijn wij?",
     title: "Marie & Mette",
     lead: "Twee Amsterdamse kunstenaars. Wij geven elke workshop samen.",
@@ -121,6 +138,14 @@ export const nl: Dict = {
     // KEPT from the earlier copy: the practical detail their bio does not state.
     bodyC:
       "Naast de activiteit zorgen wij voor gezonde sapjes, eten, snacks en zelfs decoratie. Alles is te bespreken.",
+    /* Zie de toelichting in en.ts. */
+    atWorkTitle: "In het atelier",
+    marieCaption: "Marie op straat met een camera",
+    findUsTitle: "Waar je ons vindt",
+    findUsBody:
+      "Ons atelier zit op de Oudezijds Achterburgwal, midden op de Amsterdamse Wallen, vijf minuten lopen van Amsterdam Centraal.",
+    directions: "Openen in Maps",
+    studioCaption: "Mette begeleidt een sessie in het atelier",
     languagesTitle: "Talen",
     languages: "Nederlands, Engels en een beetje Frans",
     whereTitle: "Waar",
@@ -130,11 +155,11 @@ export const nl: Dict = {
   },
 
   estimate: {
-    metaTitle: "Prijzen | Wonderland Workshops Amsterdam",
+    metaTitle: "Wat kost een kunstworkshop in Amsterdam? | Prijzen",
     metaDescription:
-      "Bereken de kosten van een kunstworkshop in Amsterdam: kies een workshop, groepsgrootte en locatie.",
+      "Wat een kunstworkshop in Amsterdam kost. Kies een workshop, groepsgrootte en locatie en zie de prijs, inclusief btw, atelierhuur en de vergoeding voor het model.",
     eyebrow: "Prijzen",
-    title: "Wat kost het?",
+    title: "Wat kost een kunstworkshop?",
     lead: "Kies een workshop en een groepsgrootte om de prijs te zien. Bel of mail ons daarna en wij maken het waar.",
     workshopLabel: "Workshop",
     participantsLabel: "Aantal personen",

@@ -2,8 +2,10 @@
 import { Image } from "astro:assets";
 import Base from "../../layouts/Base.astro";
 import BookingBar from "../BookingBar.astro";
+import Faq from "../Faq.astro";
 import { t, localePath, type Locale } from "../../i18n";
 import { getWorkshops, priceLabel, type Workshop, type WorkshopImage } from "../../content/workshops";
+import { workshopFaq } from "../../content/faq";
 import { MIN_GROUP, STUDIO_CAPACITY, MODEL_FEE } from "../../lib/pricing";
 
 import totes from "../../assets/merchandise-totes.png";
@@ -34,13 +36,27 @@ const d = t(locale);
 const key = w.heroImage ?? w.image;
 const img = key ? images[key] : null;
 const others = getWorkshops(locale).filter((x) => x.slug !== w.slug);
+const faq = workshopFaq(locale, w.slug);
+
+/* The searchable title lives on the workshop record, not here: appending a
+   location suffix to the artistic title ran to 66 characters and got truncated
+   in the result. See metaTitle in src/content/workshops.ts. */
+
+/* The hero image alt used to be just `w.title`, which told Google Images nothing
+   the <h1> did not already say. */
+const heroAlt = locale === "nl"
+  ? `${w.title}: kunstworkshop in het atelier van Wonderland Workshops in Amsterdam`
+  : `${w.title}: art workshop in the Wonderland Workshops atelier in Amsterdam`;
 ---
 
 <Base
   locale={locale}
   path={`/workshops/${w.slug}`}
-  title={`${w.title} | Wonderland Workshops Amsterdam`}
-  description={w.intro}
+  title={w.metaTitle}
+  description={w.metaDescription}
+  crumbs={[{ name: d.nav.workshops, path: "/workshops" }, { name: w.title }]}
+  workshopSlug={w.slug}
+  faq={faq}
 >
   <article>
     <header class="shell head">
@@ -51,7 +67,7 @@ const others = getWorkshops(locale).filter((x) => x.slug !== w.slug);
 
     {img && (
       <div class="shell">
-        <Image src={img} alt={w.title} class="ratio-169 hero-img" widths={[700, 1200, 1800]}
+        <Image src={img} alt={heroAlt} class="ratio-169 hero-img" widths={[700, 1200, 1800]}
                sizes="(max-width: 900px) 100vw, 1400px" loading="eager" />
       </div>
     )}
@@ -110,6 +126,8 @@ const others = getWorkshops(locale).filter((x) => x.slug !== w.slug);
         )}
       </div>
     </div>
+
+    <Faq eyebrow={d.workshopsPage.faqEyebrow} title={d.workshopsPage.faqTitle} items={faq} />
 
     <section class="shell section">
       <div class="rule">

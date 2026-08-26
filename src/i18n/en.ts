@@ -18,6 +18,7 @@ export const en = {
   label: "English",
 
   nav: {
+    home: "Home",
     workshops: "Workshops",
     gallery: "Gallery",
     about: "About",
@@ -45,10 +46,16 @@ export const en = {
   },
 
   home: {
-    metaTitle: "Wonderland Workshops | Art Workshops in Amsterdam",
+    /* Keyword first, brand second. Nobody is searching the brand name yet, so
+       leading with it spends the most valuable 30 characters in the SERP on a
+       string with no search volume. */
+    metaTitle: "Art Workshops in Amsterdam | Wonderland Workshops",
     metaDescription:
-      "We run art workshops in Amsterdam for companies, teams and groups. Two Amsterdam based artists, our studio in the Red Light District, all materials included.",
-    heroTitle: "Wonderland Workshops",
+      "Art workshops in Amsterdam for companies, teams and groups. Two Amsterdam based artists, our studio in the Red Light District, all materials included.",
+    /* The H1, and the single strongest on-page signal on the site. It used to
+       read "Wonderland Workshops"; the brand still appears in the header
+       wordmark, the <title> and the footer on every page. */
+    heroTitle: "Art workshops in Amsterdam",
 
     // Marie & Mette's own words, from the general text. Verbatim.
     heroLead:
@@ -73,15 +80,25 @@ export const en = {
 
     galleryEyebrow: "Gallery",
     galleryMore: "See the gallery",
+
+    faqEyebrow: "Questions",
+    faqTitle: "Booking a workshop",
   },
 
   workshopsPage: {
-    metaTitle: "Workshops | Wonderland Workshops Amsterdam",
+    metaTitle: "Art Workshops in Amsterdam for Teams and Groups",
     metaDescription:
-      "Make your own merch, model drawing, mixed media and custom art workshops for companies, teams and groups in Amsterdam.",
+      "Four art workshops in Amsterdam: make your own merch, model drawing, mixed media, or a workshop built for your occasion. For companies, teams and groups.",
     eyebrow: "Workshops",
-    title: "The workshops",
+    /* Distinct from the home H1, which is the broader "Art workshops in
+       Amsterdam". Two pages competing for one phrase helps neither. */
+    title: "Four art workshops in Amsterdam",
     lead: "From 6 to 12 people in our atelier, for as many people as you like at your office or location.",
+    /* Added because this page had 296 words and gave a reader no help choosing
+       between four workshops. Every claim here traces to the workshop's own
+       description in src/content/workshops.ts. */
+    intro:
+      "Three of these are set workshops you can pick from, and the fourth is written around your occasion. If you are choosing for a team: the merch workshop is the one that ends with a single object the whole group agreed on, the model drawing session is the most concentrated, and mixed media is the loosest and the fastest.",
     duration: "Duration",
     format: "Format",
     price: "Price",
@@ -98,22 +115,31 @@ export const en = {
     customTitle: "Your wish, our command!",
     customPriceNote: "Quoted per occasion. Tell us what you have in mind.",
     customLink: "The custom workshop",
+    faqEyebrow: "Questions",
+    faqTitle: "About this workshop",
   },
 
   gallery: {
-    metaTitle: "Gallery | Wonderland Workshops Amsterdam",
+    metaTitle: "Art Workshop Gallery, Amsterdam | Wonderland Workshops",
     metaDescription:
-      "Photographs from our art workshops in Amsterdam: the atelier, the sessions, and the work made in them.",
+      "Photographs from our art workshops in Amsterdam: the atelier on the Red Light District, the sessions, and the drawings, paintings and prints made in them.",
     eyebrow: "Gallery",
-    title: "Gallery",
+    title: "Art workshop gallery",
     lead: "The atelier, the sessions, and what people make in them.",
+    /* This page carried 30 words of text against 71 photographs, which gave a
+       crawler almost nothing to read. These two paragraphs describe what is
+       actually in the pictures. */
+    bodyA:
+      "Everything here was made in our atelier in the Amsterdam Red Light District, or at a company's own office, by people who mostly had not drawn anything in years. Ink portraits, charcoal figures, collage, and tote bags and shirts printed in the merch workshop.",
+    bodyB:
+      "If you are trying to picture what a workshop actually looks like before you book one, this is it: tables covered in paper, work drying on the floor, and a group two hours further in than they expected to get.",
     note: "",
   },
 
   about: {
-    metaTitle: "About | Wonderland Workshops Amsterdam",
+    metaTitle: "Marie & Mette, Amsterdam Artists | Wonderland Workshops",
     metaDescription:
-      "Two Amsterdam based artists running art workshops from a studio in the Red Light District.",
+      "Marie and Mette met at the Gerrit Rietveld Academy and run art workshops in Amsterdam from their studio in the Red Light District, for companies and groups.",
     eyebrow: "Who are we?",
     title: "Marie & Mette",
     lead: "Two Amsterdam based artists. We run every workshop together.",
@@ -125,6 +151,16 @@ export const en = {
     // KEPT from the earlier copy: the practical detail their bio does not state.
     bodyC:
       "Apart from the activity we provide healthy slow juice, food, snacks and even decoration. Everything can be discussed.",
+    /* The About page used to end in a Where / Languages / Group size list that
+       repeated, verbatim, three facts the footer already carries on every page.
+       It is replaced by a block that does something: the address as a map link. */
+    atWorkTitle: "In the atelier",
+    marieCaption: "Marie out with a camera",
+    findUsTitle: "Where to find us",
+    findUsBody:
+      "Our atelier is on the Oudezijds Achterburgwal, in the middle of the Amsterdam Red Light District, five minutes on foot from Amsterdam Centraal.",
+    directions: "Open in Maps",
+    studioCaption: "Mette guiding a session in the atelier",
     languagesTitle: "Languages",
     languages: "Dutch, English and some French",
     whereTitle: "Where",
@@ -134,11 +170,11 @@ export const en = {
   },
 
   estimate: {
-    metaTitle: "Prices | Wonderland Workshops Amsterdam",
+    metaTitle: "Art Workshop Prices in Amsterdam | Wonderland Workshops",
     metaDescription:
-      "Work out the cost of an art workshop in Amsterdam: pick a workshop, group size and location.",
+      "What an art workshop in Amsterdam costs. Pick a workshop, a group size and a location to see the price, including VAT, studio rent and the model fee.",
     eyebrow: "Prices",
-    title: "What does it cost?",
+    title: "What an art workshop costs",
     lead: "Pick a workshop and a group size to see the price. Then call or email us and we make it happen.",
     workshopLabel: "Workshop",
     participantsLabel: "Number of people",
