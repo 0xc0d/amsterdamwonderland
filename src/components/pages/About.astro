@@ -1,0 +1,102 @@
+---
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import BookingBar from "../BookingBar.astro";
+import { t, localePath, type Locale } from "../../i18n";
+import { MIN_GROUP, STUDIO_CAPACITY } from "../../lib/pricing";
+
+import portraitMarie from "../../assets/artist-marie.jpg";
+import portraitMette from "../../assets/artist-mette.jpg";
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const d = t(locale);
+
+/* Proper nouns, identical in both languages; only the alt text is localised.
+   Rendered at 170px because artist-mette.jpg is only 327x402 on disk. A wider
+   render goes soft. Raise this the day a larger file arrives. */
+const artists = [
+  { name: "Marie", src: portraitMarie,
+    alt: locale === "nl" ? "Portret van Marie" : "Portrait of Marie" },
+  { name: "Mette", src: portraitMette,
+    alt: locale === "nl" ? "Portret van Mette" : "Portrait of Mette" },
+];
+
+const facts = [
+  { label: d.about.whereTitle, value: d.about.where },
+  { label: d.about.languagesTitle, value: d.about.languages },
+  { label: d.about.capacityTitle, value: d.about.capacity },
+];
+---
+
+<Base locale={locale} path="/about" title={d.about.metaTitle} description={d.about.metaDescription}>
+  <section class="shell head">
+    <p class="eyebrow acc">{d.about.eyebrow}</p>
+    <h1 class="display-lg">{d.about.title}</h1>
+    <p class="lead">{d.about.lead}</p>
+  </section>
+
+  <section class="shell section--tight grid12">
+    <div class="body prose">
+      <p>{d.about.bodyA}</p>
+      <p>{d.about.bodyB}</p>
+      <p>{d.about.bodyC}</p>
+    </div>
+
+    <aside class="side">
+      <div class="who">
+        {artists.map((a) => (
+          <figure class="portrait">
+            <Image src={a.src} alt={a.alt} class="ratio-45"
+                   widths={[170, 340]} sizes="170px" loading="eager" />
+            <figcaption class="pname">{a.name}</figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <dl class="facts">
+        {facts.map((f) => (
+          <div class="fact">
+            <dt class="eyebrow muted">{f.label}</dt>
+            <dd>{f.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </aside>
+  </section>
+
+
+  <BookingBar locale={locale} />
+</Base>
+
+<style>
+  .head { padding-block-start: clamp(2rem, 6vw, 4rem); display: grid; gap: var(--s2); }
+  .acc { color: var(--electric); }
+  /* Two columns, not three. The previous version put prose, portraits and
+     facts in columns 1, 6 and 10, which left two dead gaps down the page. */
+  .body  { grid-column: 1 / span 6; }
+  .side  { grid-column: 8 / span 5; display: grid; gap: var(--s4); align-content: start; }
+  /* Hard-capped at 170px each. The sidebar is wide enough for 258px, but
+     artist-mette.jpg is 327px wide, so anything larger renders upscaled. */
+  .who   { display: grid; grid-template-columns: repeat(2, 10.625rem); gap: var(--s2); justify-content: start; }
+  @media (max-width: 900px) {
+    .body { grid-column: 1 / -1; }
+    .side { grid-column: 1 / -1; grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); gap: var(--s4); }
+    .who  { grid-template-columns: repeat(2, minmax(0, 10.625rem)); }
+  }
+  @media (max-width: 640px) {
+    .side { grid-template-columns: minmax(0, 1fr); }
+  }
+  .portrait { margin: 0; }
+  .portrait img { border: var(--rule) solid var(--line); }
+  .pname {
+    margin-block-start: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .fact { border-top: var(--rule) solid var(--line); padding-block: 0.7rem; }
+  .fact dd { margin-block-start: 0.3rem; }
+</style>

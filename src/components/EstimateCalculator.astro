@@ -1,0 +1,175 @@
+---
+import { t, type Locale } from "../i18n";
+import { getWorkshops } from "../content/workshops";
+import {
+  PRICE_PER_PERSON, MINIMUM_BOOKING, MODEL_FEE, STUDIO_RENT,
+  VAT_RATE, STUDIO_CAPACITY, MIN_GROUP,
+} from "../lib/pricing";
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const d = t(locale);
+/* The custom workshop is quoted per occasion, so it has no per-person rate and
+   is not offered here. */
+const workshops = getWorkshops(locale).filter((w) => w.slug !== "custom");
+
+// Handed to the client script; keeps one source of truth for the numbers.
+const config = {
+  prices: PRICE_PER_PERSON,
+  MINIMUM_BOOKING, MODEL_FEE, STUDIO_RENT, VAT_RATE, STUDIO_CAPACITY,
+  labels: {
+    perPerson: d.estimate.perPerson,
+    people: d.estimate.people,
+    subtotal: d.estimate.subtotal,
+    studioRent: d.estimate.studioRentLabel,
+    minimum: d.estimate.minimumNote,
+    modelFee: d.estimate.modelFeeLabel,
+    exclVat: d.estimate.exclVat,
+    vat: d.estimate.vatLabel,
+    inclVat: d.estimate.inclVat,
+    capacity: d.estimate.capacityNote,
+  },
+  intl: locale === "nl" ? "nl-NL" : "en-IE",
+};
+---
+
+<form class="calc" id="calc" novalidate>
+  <div class="controls">
+    <p class="field">
+      <label class="eyebrow" for="f-workshop">{d.estimate.workshopLabel}</label>
+      <select id="f-workshop" name="workshop">
+        {workshops.map((w) => <option value={w.slug}>{w.title}</option>)}
+      </select>
+    </p>
+
+    <p class="field">
+      <label class="eyebrow" for="f-people">{d.estimate.participantsLabel}</label>
+      <input id="f-people" name="people" type="number" inputmode="numeric"
+             min="1" max="200" step="1" value={MIN_GROUP} />
+    </p>
+
+    <p class="field">
+      <label class="eyebrow" for="f-where">{d.estimate.locationLabel}</label>
+      <select id="f-where" name="where">
+        <option value="studio">{d.estimate.atStudio}</option>
+        <option value="yours">{d.estimate.atYours}</option>
+      </select>
+    </p>
+  </div>
+
+  <output class="result" id="result" aria-live="polite"></output>
+
+  <p class="small muted disclaimer">{d.estimate.disclaimer}</p>
+</form>
+
+<script is:inline define:vars={{ config }}>
+  (function () {
+    const form = document.getElementById("calc");
+    const out = document.getElementById("result");
+    if (!form || !out) return;
+
+    const fmt = (n) =>
+      new Intl.NumberFormat(config.intl, {
+        style: "currency", currency: "EUR", minimumFractionDigits: 2,
+      }).format(n);
+
+    /* Mirrors calculateEstimate() in src/lib/pricing.ts exactly:
+       studio rent BEFORE the minimum, model fee AFTER it, VAT last. */
+    function calc(slug, people, atStudio) {
+      const n = Math.max(1, Math.floor(people || 0));
+      const offSite = n > config.STUDIO_CAPACITY;
+      const inStudio = atStudio && !offSite;
+      const ppp = config.prices[slug];
+      const raw = ppp * n;
+      const rent = inStudio ? config.STUDIO_RENT : 0;
+      const sub = Math.max(raw + rent, config.MINIMUM_BOOKING);
+      const fee = slug === "life-drawing" ? config.MODEL_FEE : 0;
+      const ex = sub + fee;
+      const vat = ex * config.VAT_RATE;
+      return {
+        ppp, n, raw, rent, sub, fee, ex, vat, total: ex + vat,
+        minApplied: sub > raw + rent, offSite,
+      };
+    }
+
+    function row(label, value, cls) {
+      return `<div class="line ${cls || ""}"><span>${label}</span><span>${value}</span></div>`;
+    }
+
+    function render() {
+      const slug = form.workshop.value;
+      const people = parseInt(form.people.value, 10) || 1;
+      const wantsStudio = form.where.value === "studio";
+      const r = calc(slug, people, wantsStudio);
+      const L = config.labels;
+
+      // Above capacity the atelier is not an option; reflect that in the control.
+      form.where.options[0].disabled = r.offSite;
+      if (r.offSite && wantsStudio) form.where.value = "yours";
+
+      let html = "";
+      html += row(`${L.perPerson} × ${r.n} ${L.people}`, `${fmt(r.ppp)} × ${r.n}`);
+      html += row(L.subtotal, fmt(r.raw));
+      if (r.rent) html += row(L.studioRent, fmt(r.rent));
+      if (r.minApplied) html += row(L.minimum, fmt(r.sub), "note");
+      if (r.fee) html += row(L.modelFee, fmt(r.fee));
+      html += row(L.exclVat, fmt(r.ex), "strong");
+      html += row(L.vat, fmt(r.vat));
+      html += row(L.inclVat, fmt(r.total), "total");
+      if (r.offSite) html += `<p class="cap">${L.capacity}</p>`;
+      out.innerHTML = html;
+    }
+
+    form.addEventListener("input", render);
+    form.addEventListener("change", render);
+    render();
+  })();
+</script>
+
+<style>
+  .calc { display: grid; gap: var(--s3); }
+  .controls {
+    display: grid;
+    gap: var(--s2);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  }
+  .field { display: grid; gap: 0.45rem; margin: 0; }
+  select, input {
+    border: var(--rule) solid var(--line);
+    background: var(--paper);
+    padding: 0.8rem 0.9rem;
+    font-size: var(--step-0);
+    border-radius: 0;
+    appearance: none;
+    width: 100%;
+  }
+  select:focus-visible, input:focus-visible { outline: 3px solid var(--electric); outline-offset: 2px; }
+
+  .result { display: grid; border-top: var(--rule) solid var(--line); }
+  .result :global(.line) {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s2);
+    padding-block: 0.7rem;
+    border-bottom: 1px solid color-mix(in oklab, var(--ink) 18%, transparent);
+    font-variant-numeric: tabular-nums;
+  }
+  .result :global(.line.note) { color: var(--ink-soft); font-size: var(--step--1); }
+  .result :global(.line.strong) { font-weight: 700; }
+  .result :global(.line.total) {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--step-2);
+    text-transform: uppercase;
+    border-bottom: 0;
+    border-top: var(--rule) solid var(--line);
+    padding-block-start: var(--s2);
+    margin-block-start: var(--s1);
+  }
+  .result :global(.cap) {
+    margin-block-start: var(--s2);
+    background: var(--periwinkle);
+    padding: 0.8rem 1rem;
+    font-size: var(--step--1);
+  }
+</style>

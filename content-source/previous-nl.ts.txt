@@ -1,0 +1,183 @@
+/**
+ * Dutch copy — DRAFTED BY CLAUDE, NOT YET REVIEWED BY A NATIVE SPEAKER.
+ * Ali: every string below needs your eyes before this goes live.
+ * The Dutch renders Marie & Mette's own English, so keep it plain — do not
+ * make it more marketing-flavoured than the English is.
+ */
+import { MINIMUM_BOOKING } from "../lib/pricing";
+import type { Dict } from "./en";
+
+export const nl: Dict = {
+  locale: "nl",
+  htmlLang: "nl",
+  label: "Nederlands",
+
+  nav: {
+    workshops: "Workshops",
+    gallery: "Galerie",
+    about: "Over ons",
+    estimate: "Prijzen",
+    contact: "Contact",
+    book: "Workshop boeken",
+    menu: "Menu",
+    close: "Sluiten",
+  },
+
+  brand: {
+    name: "Wonderland Workshops",
+    tagline: "Kunstworkshops in Amsterdam",
+  },
+
+  book: {
+    title: "Boek een workshop",
+    body: "Alles is te bespreken.",
+    call: "Bel ons",
+    whatsapp: "WhatsApp",
+    email: "Mail ons",
+    instagram: "Instagram",
+    noPhoneNote: "Mailen is de snelste manier om ons te bereiken.",
+  },
+
+  home: {
+    metaTitle: "Wonderland Workshops — Kunstworkshops in Amsterdam",
+    metaDescription:
+      "Wij geven kunstworkshops in Amsterdam voor bedrijven, teams en groepen. Twee Amsterdamse kunstenaars, ons atelier op de Wallen, alle materialen inbegrepen.",
+    heroTitle: "Wonderland Workshops",
+
+    heroLead:
+      "Kunstworkshops in het hart van Amsterdam, als teambuilding, een activiteit met vrienden, vrijgezellenfeest, bruiloft.... Noem het en wij maken het waar!",
+    heroClaim: "Wij geven kunstworkshops in Amsterdam voor bedrijven, teams en groepen.",
+    heroBody:
+      "Je wordt uitgenodigd in de wereld van twee Amsterdamse kunstenaars: in ons atelier op de beroemde Amsterdamse Wallen, alle materialen inbegrepen. Wij spreken Nederlands, Engels en een beetje Frans. Van 6 tot 12 personen in ons atelier, en voor zoveel mensen als je wilt op je kantoor of locatie. Naast de activiteit zorgen wij voor gezonde sapjes, eten, snacks en zelfs decoratie. Alles is te bespreken.",
+
+    ctaPrimary: "Bekijk de workshops",
+
+    workshopsEyebrow: "De workshops",
+    workshopsNote: `Minimale boeking €${MINIMUM_BOOKING} excl. btw.`,
+    readMore: "Lees meer",
+
+    introTitle: "Geen ervaring of talent nodig!",
+    introA:
+      "Wij zorgen voor de materialen. Wij bieden een structuur die je door een artistiek proces heen helpt. Je hoeft alleen jezelf mee te nemen, en gaat naar huis met iets wat je zelf hebt gemaakt!",
+    introB:
+      "Dit is een activiteit waarbij je elkaar op een nieuwe manier leert kennen; iedereen experimenteert en drukt zichzelf uit! Geen tijd om vast te lopen, wij helpen iedereen erdoorheen.",
+
+    galleryEyebrow: "Galerie",
+    galleryMore: "Bekijk de galerie",
+  },
+
+  workshopsPage: {
+    metaTitle: "Workshops — Wonderland Workshops Amsterdam",
+    metaDescription:
+      "Merchandise, model tekenen, mixed media en workshops op maat voor bedrijven, teams en groepen in Amsterdam.",
+    eyebrow: "Workshops",
+    title: "De workshops",
+    lead: "Van 6 tot 12 personen in ons atelier, en voor zoveel mensen als je wilt op je kantoor of locatie.",
+    duration: "Duur",
+    format: "Vorm",
+    price: "Prijs",
+    groupSize: "Groepsgrootte",
+    takeaway: "Wat je meeneemt",
+    goodToKnow: "Goed om te weten",
+    allWorkshops: "Alle workshops",
+    bookThis: "Boek deze workshop",
+    estimateThis: "Bekijk de prijs",
+    coreEyebrow: "Drie workshops",
+    customEyebrow: "Of één op maat",
+    customTitle: "Jij noemt het, wij maken het",
+    customPriceNote: "Prijs per gelegenheid — vertel ons wat je in gedachten hebt.",
+    customLink: "De workshop op maat",
+  },
+
+  gallery: {
+    metaTitle: "Galerie — Wonderland Workshops Amsterdam",
+    metaDescription:
+      "Foto's van onze kunstworkshops in Amsterdam — het atelier, de sessies en het werk dat erin gemaakt wordt.",
+    eyebrow: "Galerie",
+    title: "Galerie",
+    lead: "Het atelier, de sessies, en wat mensen erin maken.",
+    note: "",
+  },
+
+  about: {
+    metaTitle: "Over ons — Wonderland Workshops Amsterdam",
+    metaDescription:
+      "Twee Amsterdamse kunstenaars die kunstworkshops geven vanuit een atelier op de Wallen.",
+    eyebrow: "Over ons",
+    title: "Marie & Mette",
+    lead: "Twee Amsterdamse kunstenaars. Wij geven elke workshop samen.",
+    bodyA:
+      "Je wordt uitgenodigd in de wereld van twee Amsterdamse kunstenaars: in ons atelier op de beroemde Amsterdamse Wallen, alle materialen inbegrepen.",
+    bodyB:
+      "Naast de activiteit zorgen wij voor gezonde sapjes, eten, snacks en zelfs decoratie. Alles is te bespreken.",
+    languagesTitle: "Talen",
+    languages: "Nederlands, Engels en een beetje Frans",
+    whereTitle: "Waar",
+    where: "De Wallen, Amsterdam",
+    capacityTitle: "Groepsgrootte",
+    capacity: "6 tot 12 in ons atelier · elk aantal op jouw locatie",
+  },
+
+  estimate: {
+    metaTitle: "Prijzen — Wonderland Workshops Amsterdam",
+    metaDescription:
+      "Bereken de kosten van een kunstworkshop in Amsterdam: kies een workshop, groepsgrootte en locatie.",
+    eyebrow: "Prijzen",
+    title: "Wat kost het?",
+    lead: "Kies een workshop en een groepsgrootte om de prijs te zien. Bel of mail ons daarna en wij maken het waar.",
+    workshopLabel: "Workshop",
+    participantsLabel: "Aantal personen",
+    locationLabel: "Waar",
+    atStudio: "Ons atelier in Amsterdam",
+    atYours: "Jouw kantoor of locatie",
+    perPerson: "Per persoon",
+    people: "personen",
+    subtotal: "Subtotaal",
+    studioRentLabel: "Atelierhuur",
+    minimumNote: `Minimale boeking van €${MINIMUM_BOOKING} toegepast`,
+    modelFeeLabel: "Vergoeding model",
+    exclVat: "Subtotaal excl. btw",
+    vatLabel: "Btw 21%",
+    inclVat: "Totaal incl. btw",
+    capacityNote: "Meer dan 12 personen? Dan komen wij naar je kantoor of locatie.",
+    disclaimer:
+      "Alle prijzen zijn excl. 21% btw. Reizen buiten Amsterdam, merchandiseproductie en speciale materialen worden apart aangeboden.",
+    sendCta: "Boek deze workshop",
+  },
+
+  contact: {
+    metaTitle: "Contact — Wonderland Workshops Amsterdam",
+    metaDescription:
+      "Boek een kunstworkshop in Amsterdam. Bel, WhatsApp of mail ons. Wij spreken Nederlands, Engels en een beetje Frans.",
+    eyebrow: "Contact",
+    title: "Laten we iets maken",
+    lead: "Vertel ons de gelegenheid, ongeveer hoeveel mensen en wanneer. Alles is te bespreken.",
+    nameLabel: "Je naam",
+    emailLabel: "E-mail",
+    occasionLabel: "Wat is de gelegenheid?",
+    peopleLabel: "Hoeveel personen?",
+    dateLabel: "Ongeveer welke datum",
+    messageLabel: "Nog iets wat we moeten weten?",
+    submit: "Versturen",
+    sending: "Versturen…",
+    successTitle: "Bedankt — dat is bij ons aangekomen.",
+    successBody: "We nemen zo snel mogelijk contact met je op.",
+    errorBody: "Dat is niet verstuurd. Mail ons rechtstreeks.",
+    orEmail: "Of mail ons rechtstreeks",
+    emailAddress: "mariemettezakelijk@gmail.com",
+    phoneLabel: "Telefoon",
+    languagesLabel: "Talen",
+    languagesValue: "Nederlands, Engels en een beetje Frans",
+    basedLabel: "Gevestigd in",
+    basedValue: "Amsterdam, Nederland",
+    pricingLabel: "Prijzen",
+    required: "verplicht",
+  },
+
+  footer: {
+    blurb: "Kunstworkshops in Amsterdam voor bedrijven, teams en groepen.",
+    workshops: "Workshops",
+    studio: "Atelier",
+    rights: "Alle rechten voorbehouden.",
+  },
+};

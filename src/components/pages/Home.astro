@@ -1,0 +1,172 @@
+---
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import WorkshopCard from "../WorkshopCard.astro";
+import BookingBar from "../BookingBar.astro";
+import { t, localePath, type Locale } from "../../i18n";
+import { getWorkshops } from "../../content/workshops";
+
+import hero from "../../assets/hero-collage.png";
+import participant from "../../assets/participant-drawing.jpg";
+import food from "../../assets/food-spread.jpg";
+import ink from "../../assets/mixed-media-ink.jpg";
+import collage from "../../assets/mixed-media-collage.jpg";
+import totes from "../../assets/merchandise-totes.png";
+import groupLaughing from "../../assets/group-laughing.jpg";
+import concentrationPair from "../../assets/concentration-pair.jpg";
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const d = t(locale);
+const workshops = getWorkshops(locale);
+---
+
+<Base
+  locale={locale}
+  path="/"
+  title={d.home.metaTitle}
+  description={d.home.metaDescription}
+  structuredData
+>
+  <!-- ============ HERO — Marie & Mette's own words, in their order ============ -->
+  <section class="shell hero">
+    <h1 class="display-xl htitle">{d.home.heroTitle}</h1>
+
+    <div class="hero-art">
+      <Image
+        src={hero}
+        alt="Wonderland Workshops: cut-out collage of a figure with the studio name across it"
+        widths={[600, 1000, 1600, 2000]}
+        sizes="(max-width: 900px) 100vw, 1400px"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+
+    <p class="lead hero-lead">{d.home.heroLead}</p>
+
+    <div class="hero-copy">
+      <p class="claim">{d.home.heroClaim}</p>
+      <div class="stack">
+        <p>{d.home.heroBody}</p>
+        <a class="btn btn--solid" href={localePath(locale, "/workshops")}>{d.home.ctaPrimary}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BOOK — put the phone number near the top ============ -->
+  <BookingBar locale={locale} />
+
+  <!-- ============ WORKSHOPS ============ -->
+  <section class="shell section">
+    <div class="rule between">
+      <p class="eyebrow acc">{d.home.workshopsEyebrow}</p>
+      <p class="small muted">{d.home.workshopsNote}</p>
+    </div>
+
+    <div class="cards cards--after-rule">
+      {workshops.map((w) => <WorkshopCard workshop={w} locale={locale} />)}
+    </div>
+  </section>
+
+  <!-- ============ NO EXPERIENCE — their words ============ -->
+  <section class="shell section">
+    <div class="rule">
+      <h2 class="display-lg">{d.home.introTitle}</h2>
+      <div class="twocol">
+        <p>{d.home.introA}</p>
+        <p>{d.home.introB}</p>
+      </div>
+    </div>
+
+    <div class="trio">
+      <Image src={participant} alt="Two participants laughing while holding up a drawing" class="ratio-43" widths={[400,700,1100]} loading="lazy" />
+      <Image src={food} alt="Fruit and vegetables prepared for a workshop" class="ratio-43" widths={[400,700,1100]} loading="lazy" />
+      <Image src={concentrationPair}
+             alt={locale === "nl" ? "Twee deelnemers tekenen samen aan de tafel" : "Two participants drawing together at the table"}
+             class="ratio-43" widths={[400,700,1100]} loading="lazy" />
+    </div>
+  </section>
+
+  <!-- ============ GALLERY PREVIEW ============ -->
+  <section class="shell section">
+    <div class="rule between">
+      <p class="eyebrow acc">{d.home.galleryEyebrow}</p>
+      <a class="btn btn--ghost" href={localePath(locale, "/gallery")}>{d.home.galleryMore}</a>
+    </div>
+    <div class="gal section--tight">
+      <Image src={collage} alt="A magazine collage made in a mixed media workshop" class="ratio-45" widths={[400,800]} loading="lazy" />
+      <Image src={ink} alt="Ink portrait in progress" class="ratio-45" widths={[400,800]} loading="lazy" />
+      <Image src={groupLaughing}
+             alt={locale === "nl" ? "Een groep lacht tijdens een workshop" : "A group laughing during a workshop"}
+             class="ratio-45" widths={[400,800]} loading="lazy" />
+      <Image src={totes} alt="Printed tote bags" class="ratio-45" widths={[400,688]} loading="lazy" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Small gap: the eyebrow row above belongs to these cards. It used to carry
+     section--tight, stacking a second full section margin under the rule. */
+  .cards--after-rule { margin-block-start: var(--s3); }
+  /* Hero */
+  .hero { padding-block-start: clamp(2rem, 5vw, 4rem); }
+  /* "WORKSHOPS" is one unbreakable word: at --step-5 it is wider than a 390px
+     viewport, which pushed the page 1px sideways. Cap by viewport width so the
+     longest word always fits; on desktop --step-5 is the smaller value and wins. */
+  .htitle {
+    margin-block-start: 0;
+    font-size: min(var(--step-5), 11vw);
+  }
+  .hero-art {
+    margin-block-start: clamp(1.25rem, 3vw, 2rem);
+    border: var(--rule) solid var(--line);
+    /* Matches the artwork's own background so the image reads as one field. */
+    background: var(--electric);
+  }
+  /* Cap the artwork so the hero copy is reachable without scrolling on a laptop. */
+  .hero-art img {
+    width: 100%;
+    max-height: min(52vh, 30rem);
+    object-fit: contain;
+  }
+  .hero-lead {
+    margin-block-start: clamp(1.5rem, 3.5vw, 2.5rem);
+    max-width: 46ch;
+  }
+  .hero-copy {
+    margin-block-start: clamp(1.25rem, 3vw, 2rem);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+  @media (max-width: 860px) { .hero-copy { grid-template-columns: 1fr; } }
+  /* Their one-line statement of what the business is. */
+  .claim {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 800;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: var(--electric);
+    margin: 0;
+  }
+
+  .acc { color: var(--electric); }
+
+  .twocol {
+    margin-block-start: var(--s3);
+    display: grid;
+    gap: var(--s3);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  }
+  .trio {
+    margin-block-start: var(--s4);
+    display: grid;
+    gap: var(--s2);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  }
+
+  .gal { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+</style>

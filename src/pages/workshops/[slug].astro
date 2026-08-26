@@ -1,0 +1,10 @@
+---
+import WorkshopDetail from "../../components/pages/WorkshopDetail.astro";
+import { getWorkshops } from "../../content/workshops";
+
+export function getStaticPaths() {
+  return getWorkshops("en").map((w) => ({ params: { slug: w.slug }, props: { workshop: w } }));
+}
+const { workshop } = Astro.props;
+---
+<WorkshopDetail locale="en" workshop={workshop} />

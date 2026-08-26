@@ -1,0 +1,220 @@
+---
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import BookingBar from "../BookingBar.astro";
+import { t, type Locale } from "../../i18n";
+
+// Existing studio/session photographs
+import groupLaughing from "../../assets/group-laughing.jpg";
+import sessionTables from "../../assets/session-tables.jpg";
+import artistTeaching from "../../assets/artist-teaching.jpg";
+import artistGuiding from "../../assets/artist-guiding.jpg";
+import concentrating from "../../assets/concentrating.jpg";
+import concentrationPair from "../../assets/concentration-pair.jpg";
+import food from "../../assets/food-spread.jpg";
+import participant from "../../assets/participant-drawing.jpg";
+import lifeDrawing from "../../assets/life-drawing.jpg";
+
+// Work made in sessions
+import wBlueOnOrange from "../../assets/w-blue-on-orange.jpg";
+import wYellowFigure from "../../assets/w-yellow-figure.jpg";
+import wStripedFigure from "../../assets/w-striped-figure.jpg";
+import wSwirlPortrait from "../../assets/w-swirl-portrait.jpg";
+import wRedPortrait from "../../assets/w-red-portrait.jpg";
+import wYellowFace from "../../assets/w-yellow-face.jpg";
+import wTwoProfiles from "../../assets/w-two-profiles.jpg";
+import wRedFigure from "../../assets/w-red-figure.jpg";
+import wOrangePortrait from "../../assets/w-orange-portrait.jpg";
+import wRedBluePortrait from "../../assets/w-red-blue-portrait.jpg";
+import wPurpleSplatter from "../../assets/w-purple-splatter.jpg";
+import wPinkPair from "../../assets/w-pink-pair.jpg";
+import wCharcoalFigure from "../../assets/w-charcoal-figure.jpg";
+import wCharcoalFace from "../../assets/w-charcoal-face.jpg";
+import wCharcoalCurly from "../../assets/w-charcoal-curly.jpg";
+import wCharcoalPortrait from "../../assets/w-charcoal-portrait.jpg";
+
+// Process and layouts
+import wPaintingOverhead from "../../assets/w-painting-overhead.jpg";
+import wDrawingOverhead from "../../assets/w-drawing-overhead.jpg";
+import wStudioSession from "../../assets/w-studio-session.jpg";
+import wStudioWide from "../../assets/w-studio-wide.jpg";
+import wPairDrawing from "../../assets/w-pair-drawing.jpg";
+import wHandsDrawing from "../../assets/w-hands-drawing.jpg";
+import wEaselGroup from "../../assets/w-easel-group.jpg";
+import wFloorCharcoal from "../../assets/w-floor-charcoal.jpg";
+import wFloorColour from "../../assets/w-floor-colour.jpg";
+import wSketchbooks from "../../assets/w-sketchbooks.jpg";
+import wSketchbookTriptych from "../../assets/w-sketchbook-triptych.jpg";
+import wPaintingsFloor from "../../assets/w-paintings-floor.jpg";
+
+// Added from the workshop archive
+import wPastelSeatedPurple from "../../assets/w-pastel-seated-purple.jpg";
+import wYellowDressFigure from "../../assets/w-yellow-dress-figure.jpg";
+import wCharcoalArmsUp from "../../assets/w-charcoal-arms-up.jpg";
+import wOrangeKneeling from "../../assets/w-orange-kneeling.jpg";
+import wGreySeatedFigure from "../../assets/w-grey-seated-figure.jpg";
+import wBlueJeansSeated from "../../assets/w-blue-jeans-seated.jpg";
+import wThreeStudies from "../../assets/w-three-studies.jpg";
+import wFourStudiesTable from "../../assets/w-four-studies-table.jpg";
+import wTwoPortraitsGreen from "../../assets/w-two-portraits-green.jpg";
+import wRedHatPortrait from "../../assets/w-red-hat-portrait.jpg";
+import wYellowJumperPortrait from "../../assets/w-yellow-jumper-portrait.jpg";
+import wEaselPaintingFigure from "../../assets/w-easel-painting-figure.jpg";
+import wPinkMagentaSeated from "../../assets/w-pink-magenta-seated.jpg";
+import wGreenPortraitRed from "../../assets/w-green-portrait-red.jpg";
+import wDinnerTableScene from "../../assets/w-dinner-table-scene.jpg";
+import wBlueWhiteDouble from "../../assets/w-blue-white-double.jpg";
+import wRedGreyProfiles from "../../assets/w-red-grey-profiles.jpg";
+import wGlassesPastel from "../../assets/w-glasses-pastel.jpg";
+import wCharcoalRedFace from "../../assets/w-charcoal-red-face.jpg";
+import wSessionTwoEasels from "../../assets/w-session-two-easels.jpg";
+import wFloorSpreadWorks from "../../assets/w-floor-spread-works.jpg";
+import wBlueFaceRedFrame from "../../assets/w-blue-face-red-frame.jpg";
+import wOchreCurlyCharcoal from "../../assets/w-ochre-curly-charcoal.jpg";
+import wCurlsCharcoalAbstract from "../../assets/w-curls-charcoal-abstract.jpg";
+import wCharcoalSeatedArms from "../../assets/w-charcoal-seated-arms.jpg";
+import wMarkerPinkBlueFace from "../../assets/w-marker-pink-blue-face.jpg";
+import wOchreBaldPortrait from "../../assets/w-ochre-bald-portrait.jpg";
+import wHoodedPortrait from "../../assets/w-hooded-portrait.jpg";
+import wBeardedPortrait from "../../assets/w-bearded-portrait.jpg";
+
+// Merchandise outcomes
+import mToteOwl from "../../assets/m-tote-owl.jpg";
+import mSweatshirt from "../../assets/m-sweatshirt.jpg";
+import mPrintedPortrait from "../../assets/m-printed-portrait.jpg";
+import mFramedAndShirt from "../../assets/m-framed-and-shirt.jpg";
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const d = t(locale);
+
+/**
+ * The gallery. To add a photograph: drop the file in src/assets/, import it
+ * above, and add an entry here. Order is the display order (masonry columns).
+ * Nothing is cropped — each image keeps its own proportions.
+ */
+const nl = locale === "nl";
+const items = [
+  { src: groupLaughing,      alt: nl ? "De groep lacht rond de tafels in het atelier" : "The group laughing around the tables in the atelier" },
+  { src: wSwirlPortrait,     alt: nl ? "Portret in blauw en rood, gemaakt in een sessie" : "Portrait in blue and red made in a session" },
+  { src: wStudioSession,     alt: nl ? "Modeltekensessie in het atelier" : "A life drawing session in the atelier" },
+  { src: mToteOwl,           alt: nl ? "Tote bag bedrukt met een tekening uit een workshop" : "Tote bag printed with a drawing from a workshop" },
+  { src: wRedPortrait,       alt: nl ? "Rood portret in oliepastel" : "Red portrait in oil pastel" },
+  { src: sessionTables,      alt: nl ? "Deelnemers aan het tekenen aan de tafels" : "Participants drawing at the tables" },
+  { src: wCharcoalFace,      alt: nl ? "Houtskoolportret" : "Charcoal portrait" },
+  { src: wFloorColour,       alt: nl ? "Werk uit een sessie, uitgelegd op de vloer" : "Work from a session laid out on the floor" },
+  { src: wBlueOnOrange,      alt: nl ? "Figuur in blauw op oranje achtergrond" : "Figure in blue on an orange ground" },
+  { src: artistTeaching,     alt: nl ? "Een van de kunstenaars helpt twee deelnemers" : "One of the artists helping two participants" },
+  { src: wTwoProfiles,       alt: nl ? "Twee profielen in geel en groen" : "Two profiles in yellow and green" },
+  { src: mSweatshirt,        alt: nl ? "Sweater bedrukt met een portret uit een workshop" : "Sweatshirt printed with a portrait from a workshop" },
+  { src: wPaintingOverhead,  alt: nl ? "Deelnemer aan het schilderen, van bovenaf" : "A participant painting, seen from above" },
+  { src: wYellowFace,        alt: nl ? "Gezicht in geel en wit" : "Face in yellow and white" },
+  { src: wCharcoalFigure,    alt: nl ? "Figuur in houtskool" : "Figure in charcoal" },
+  { src: wEaselGroup,        alt: nl ? "Meerdere werken naast elkaar in het atelier" : "Several works side by side in the atelier" },
+  { src: wRedFigure,         alt: nl ? "Figuur in rood met bleek gezicht" : "Figure in red with a pale face" },
+  { src: concentrationPair,  alt: nl ? "Twee deelnemers tekenen samen aan de tafel" : "Two participants drawing together at the table" },
+  { src: wPurpleSplatter,    alt: nl ? "Portret in paars met spatten" : "Portrait in purple with splatter" },
+  { src: wStripedFigure,     alt: nl ? "Figuur in gestreept shirt, blauwe achtergrond" : "Figure in a striped shirt on blue" },
+  { src: mPrintedPortrait,   alt: nl ? "Portret gedrukt op stof" : "Portrait printed on fabric" },
+  { src: wHandsDrawing,      alt: nl ? "Handen aan het tekenen aan een portret" : "Hands working on a portrait" },
+  { src: wCharcoalCurly,     alt: nl ? "Houtskoolportret met krullend haar" : "Charcoal portrait with curly hair" },
+  { src: wOrangePortrait,    alt: nl ? "Portret in oranje en blauw" : "Portrait in orange and blue" },
+  { src: food,               alt: nl ? "Fruit en groente klaargemaakt voor een workshop" : "Fruit and vegetables prepared for a workshop" },
+  { src: wPaintingsFloor,    alt: nl ? "Geschilderde portretten uitgelegd op de vloer" : "Painted portraits laid out on the floor" },
+  { src: wYellowFigure,      alt: nl ? "Figuur in geel" : "Figure in yellow" },
+  { src: wStudioWide,        alt: nl ? "Overzicht van het atelier tijdens een sessie" : "The atelier during a session" },
+  { src: wRedBluePortrait,   alt: nl ? "Portret in rood en blauw" : "Portrait in red and blue" },
+  { src: wSketchbooks,       alt: nl ? "Schetsboeken naast elkaar" : "Sketchbooks side by side" },
+  { src: participant,        alt: nl ? "Deelnemers lachen om een tekening" : "Participants laughing over a drawing" },
+  { src: wCharcoalPortrait,  alt: nl ? "Houtskoolportret" : "Charcoal portrait" },
+  { src: wPinkPair,          alt: nl ? "Twee werken in roze en blauw" : "Two works in pink and blue" },
+  { src: wDrawingOverhead,   alt: nl ? "Deelnemer aan het tekenen, van bovenaf" : "A participant drawing, seen from above" },
+  { src: mFramedAndShirt,    alt: nl ? "Ingelijst werk naast een bedrukt shirt" : "A framed work beside a printed shirt" },
+  { src: wPairDrawing,       alt: nl ? "Twee deelnemers aan het werk in het atelier" : "Two participants at work in the atelier" },
+  { src: concentrating,      alt: nl ? "Een deelnemer concentreert zich boven een tekenplank" : "A participant concentrating over a drawing board" },
+  { src: wFloorCharcoal,     alt: nl ? "Houtskoolwerk uitgelegd op de vloer" : "Charcoal work laid out on the floor" },
+  { src: wSketchbookTriptych,alt: nl ? "Schetsboek met drie tekeningen" : "Sketchbook with three drawings" },
+  { src: artistGuiding,      alt: nl ? "Een kunstenaar begeleidt deelnemers aan de tafel" : "An artist guiding participants at the table" },
+  { src: lifeDrawing,        alt: nl ? "Modeltekensessie in het atelier" : "A life drawing session in the atelier" },
+  { src: wPastelSeatedPurple,   alt: nl ? "Zittende figuur in oliepastel, paarse achtergrond" : "Seated figure in oil pastel on a purple ground" },
+  { src: wYellowDressFigure,    alt: nl ? "Figuur met gele vorm, houtskool en pastel" : "Figure with a yellow form, charcoal and pastel" },
+  { src: wCharcoalArmsUp,       alt: nl ? "Houtskoolfiguur met de armen omhoog" : "Charcoal figure with raised arms" },
+  { src: wOrangeKneeling,       alt: nl ? "Knielende figuur in oranje en blauw" : "Kneeling figure in orange and blue" },
+  { src: wGreySeatedFigure,     alt: nl ? "Zittende figuur in grijs en oker" : "Seated figure in grey and ochre" },
+  { src: wBlueJeansSeated,      alt: nl ? "Zittende figuur op een kruk, blauw en grijs" : "Seated figure on a stool in blue and grey" },
+  { src: wThreeStudies,         alt: nl ? "Drie studies naast elkaar" : "Three studies side by side" },
+  { src: wFourStudiesTable,     alt: nl ? "Vier studies op de werktafel" : "Four studies on the work table" },
+  { src: wTwoPortraitsGreen,    alt: nl ? "Twee portretten in groen en geel" : "Two portraits in green and yellow" },
+  { src: wRedHatPortrait,       alt: nl ? "Portret met rode hoed" : "Portrait with a red hat" },
+  { src: wYellowJumperPortrait, alt: nl ? "Portret in gele trui" : "Portrait in a yellow jumper" },
+  { src: wEaselPaintingFigure,  alt: nl ? "Geschilderde figuur aan een schildersezel" : "Painted figure at an easel" },
+  { src: wPinkMagentaSeated,    alt: nl ? "Zittende figuur in magenta en groen" : "Seated figure in magenta and green" },
+  { src: wGreenPortraitRed,     alt: nl ? "Portret in groen met rood" : "Portrait in green with red" },
+  { src: wDinnerTableScene,     alt: nl ? "Tafelscene in blauw en groen" : "Table scene in blue and green" },
+  { src: wBlueWhiteDouble,      alt: nl ? "Dubbel portret in blauw en wit" : "Double portrait in blue and white" },
+  { src: wRedGreyProfiles,      alt: nl ? "Twee profielen in rood, grijs en geel" : "Two profiles in red, grey and yellow" },
+  { src: wGlassesPastel,        alt: nl ? "Portret met bril in pastel" : "Portrait with glasses in pastel" },
+  { src: wCharcoalRedFace,      alt: nl ? "Gezicht in houtskool met rood" : "Face in charcoal with red" },
+  { src: wSessionTwoEasels,     alt: nl ? "Twee deelnemers aan het werk in het atelier" : "Two participants at work in the atelier" },
+  { src: wFloorSpreadWorks,     alt: nl ? "Werk uit een sessie uitgelegd op de vloer" : "Work from a session spread out on the floor" },
+  { src: wBlueFaceRedFrame,     alt: nl ? "Blauw gezicht met rode rand" : "Blue face with a red border" },
+  { src: wOchreCurlyCharcoal,   alt: nl ? "Portret in oker en houtskool" : "Portrait in ochre and charcoal" },
+  { src: wCurlsCharcoalAbstract, alt: nl ? "Houtskooltekening met krullen" : "Charcoal drawing with curls" },
+  { src: wCharcoalSeatedArms,   alt: nl ? "Zittende figuur in houtskool" : "Seated figure in charcoal" },
+  { src: wMarkerPinkBlueFace,   alt: nl ? "Gezicht in roze en blauwe stift" : "Face in pink and blue marker" },
+  { src: wOchreBaldPortrait,    alt: nl ? "Portret in oker en houtskool" : "Portrait in ochre and charcoal" },
+  { src: wHoodedPortrait,       alt: nl ? "Portret met capuchon in houtskool en pastel" : "Hooded portrait in charcoal and pastel" },
+  { src: wBeardedPortrait,      alt: nl ? "Portret met baard in houtskool" : "Bearded portrait in charcoal" },
+];
+
+---
+
+<Base locale={locale} path="/gallery" title={d.gallery.metaTitle} description={d.gallery.metaDescription}>
+  <section class="shell head">
+    <h1 class="display-lg">{d.gallery.title}</h1>
+    <p class="lead">{d.gallery.lead}</p>
+  </section>
+
+  <section class="shell section--tight">
+    <div class="mosaic">
+      {items.map((it) => (
+        <figure class="cell">
+          <Image src={it.src} alt={it.alt} widths={[400, 800, 1400]}
+                 sizes="(max-width: 900px) 50vw, 33vw" loading="lazy" />
+        </figure>
+      ))}
+    </div>
+    <p class="small muted note">{d.gallery.note}</p>
+  </section>
+
+  <BookingBar locale={locale} />
+</Base>
+
+<style>
+  .head { padding-block-start: clamp(2rem, 6vw, 4rem); display: grid; gap: var(--s2); }
+  .acc { color: var(--electric); }
+
+  /* Masonry via columns: every photo keeps its own aspect ratio, nothing is
+     cropped, and there are no holes to backfill. Reading order is per-column,
+     which is fine for a gallery. */
+  .mosaic { column-count: 3; column-gap: var(--s2); }
+  .cell {
+    margin: 0 0 var(--s2);
+    break-inside: avoid;
+    border: var(--rule) solid var(--line);
+    overflow: hidden;
+  }
+  .cell img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform .4s ease;
+  }
+  .cell:hover img { transform: scale(1.03); }
+
+  @media (max-width: 900px) { .mosaic { column-count: 2; } }
+  /* Deliberately stays at 2 on phones: one column made the page 18,000px long. */
+  @media (max-width: 520px) { .mosaic { column-count: 2; column-gap: 0.5rem; } }
+
+  .note { margin-block-start: var(--s3); }
+</style>

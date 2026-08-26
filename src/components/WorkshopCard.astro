@@ -1,0 +1,103 @@
+---
+import { Image } from "astro:assets";
+import { localePath, t, type Locale } from "../i18n";
+import { priceLabel } from "../content/workshops";
+import type { Workshop } from "../content/workshops";
+import { MODEL_FEE } from "../lib/pricing";
+
+import totes from "../assets/merchandise-totes.png";
+import lifeDrawing from "../assets/life-drawing.jpg";
+import lifeModelSetup from "../assets/life-model-setup.jpg";
+import ink from "../assets/mixed-media-ink.jpg";
+import collage from "../assets/mixed-media-collage.jpg";
+import paintingsFloor from "../assets/w-paintings-floor.jpg";
+import hoodedPortrait from "../assets/w-hooded-portrait.jpg";
+import studioSession from "../assets/w-studio-session.jpg";
+
+const images = {
+  "merchandise-totes": totes,
+  "life-drawing": lifeDrawing,
+  "life-model-setup": lifeModelSetup,
+  "mixed-media-ink": ink,
+  "mixed-media-collage": collage,
+  "w-paintings-floor": paintingsFloor,
+  "w-hooded-portrait": hoodedPortrait,
+  "w-studio-session": studioSession,
+} as const;
+
+interface Props { workshop: Workshop; locale: Locale; }
+const { workshop: w, locale } = Astro.props;
+const d = t(locale);
+const img = w.image ? images[w.image] : null;
+const href = localePath(locale, `/workshops/${w.slug}`);
+---
+
+<a class="card" href={href}>
+  <div class="media">
+    {img ? (
+      <Image src={img} alt={w.title} class="ratio-43" widths={[400, 700, 1000]} loading="lazy" />
+    ) : (
+      <div class="ratio-43 nomedia" aria-hidden="true">
+      </div>
+    )}
+  </div>
+
+  <div class="body">
+    <h3 class="display-md title">{w.title}</h3>
+    <p class="tagline">{w.tagline}</p>
+    <p class="small intro">{w.intro}</p>
+    <p class="price">
+      {priceLabel(locale, w.slug)}
+      {w.slug === "life-drawing" && <span class="muted"> · + €{MODEL_FEE} {locale === "nl" ? "model" : "model fee"}</span>}
+    </p>
+    <span class="more">{d.home.readMore} →</span>
+  </div>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    border: var(--rule) solid var(--line);
+    background: var(--paper);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 8px 8px 0 var(--electric); }
+  .media { overflow: hidden; border-bottom: var(--rule) solid var(--line); }
+  .card:hover .media img { transform: scale(1.03); }
+  .media img { transition: transform .35s ease; }
+  .nomedia {
+    display: grid;
+    place-items: center;
+    background: var(--periwinkle);
+    color: color-mix(in oklab, var(--ink) 45%, transparent);
+  }
+  .body { padding: var(--s3); display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+  .idx { color: var(--electric); }
+  /* Smaller than the global .display-md step. At 32px the longest single word
+     we have ("ROLLERCOASTER", 295px) did not fit the 248px card and broke
+     mid-syllable. Sized so it fits whole; the global break-word rule is only
+     a last-resort net now. */
+  .title { text-wrap: balance; font-size: clamp(1.25rem, 1.05rem + 0.5vw, 1.55rem); }
+  .tagline { font-family: var(--font-accent); font-size: var(--step-1); line-height: 1.2; color: var(--pink); }
+  .intro { color: var(--ink-soft); flex: 1; }
+  .price {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-top: var(--rule) solid var(--line);
+    padding-block-start: 0.75rem;
+  }
+  .more {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--electric);
+  }
+  .card:hover .more { color: var(--pink); }
+</style>

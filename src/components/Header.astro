@@ -1,0 +1,192 @@
+---
+import { Image } from "astro:assets";
+import { t, localePath, otherLocale, type Locale } from "../i18n";
+import logo from "../assets/logo-xbold.png";
+import InstagramLink from "./InstagramLink.astro";
+import { PHONE_DISPLAY, telHref, hasPhone } from "../lib/config";
+
+interface Props { locale: Locale; path: string; }
+const { locale, path } = Astro.props;
+const d = t(locale);
+const other = otherLocale(locale);
+
+const links = [
+  { href: "/workshops", label: d.nav.workshops },
+  { href: "/gallery", label: d.nav.gallery },
+  { href: "/about", label: d.nav.about },
+  { href: "/estimate", label: d.nav.estimate },
+];
+---
+
+<header class="site-header">
+  <div class="shell bar">
+    <a href={localePath(locale, "/")} class="wordmark" aria-label={d.brand.name}>
+      <Image src={logo} alt="" class="mark" widths={[180, 360]} loading="eager" />
+      <span class="wordmark-text">Wonderland<br /><span class="muted-inline">Workshops</span></span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      {links.map((l) => (
+        <a
+          href={localePath(locale, l.href)}
+          class="nav-link"
+          aria-current={path === l.href ? "page" : undefined}
+        >{l.label}</a>
+      ))}
+    </nav>
+
+    <div class="right">
+      <a class="lang" href={localePath(other, path)} hreflang={other} lang={other}>
+        {other.toUpperCase()}
+      </a>
+      <InstagramLink solid />
+
+      <details class="menu">
+        <summary aria-label={d.nav.menu}>
+          <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+        </summary>
+        <div class="menu-panel">
+          {links.map((l) => (
+            <a href={localePath(locale, l.href)} class="menu-link">{l.label}</a>
+          ))}
+          {hasPhone && (
+            <a href={telHref} class="menu-link menu-link--cta">{d.book.call}: {PHONE_DISPLAY}</a>
+          )}
+          <span class="menu-link menu-ig"><InstagramLink withHandle /></span>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in oklab, var(--paper) 88%, transparent);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: var(--rule) solid var(--line);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: var(--s3);
+    min-height: 4.5rem;
+  }
+
+  /* The mark is a delicate double outline and vanishes below ~120px, so the
+     header uses a typographic W lock-up instead of the PNG. */
+  .wordmark {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    margin-inline-end: auto;
+  }
+  /* The studio's own mark. The source outline is ~3px on a 1900px image and
+     disappears when scaled down, so logo-xbold.png is the same artwork with a
+     dilated stroke — shape untouched, just legible at this size. */
+  .wordmark .mark {
+    height: 2.6rem;
+    max-height: 2.6rem;
+    width: auto;
+    max-width: none;
+    flex: none;
+  }
+  .wordmark-text {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.78rem;
+    line-height: 1.12;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .muted-inline { color: var(--ink-soft); }
+
+  .nav { display: flex; gap: clamp(0.9rem, 2vw, 1.9rem); }
+  .menu-ig { display: flex; align-items: center; }
+  .nav-link {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding-block: 0.4rem;
+    border-bottom: var(--rule) solid transparent;
+    transition: border-color .16s ease, color .16s ease;
+    white-space: nowrap;
+  }
+  .nav-link:hover { border-color: var(--pink); color: var(--pink); }
+  .nav-link[aria-current="page"] { border-color: var(--ink); }
+
+  .right { display: flex; align-items: center; gap: var(--s2); }
+  .lang {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    border: var(--rule) solid var(--line);
+    /* Explicit height so the pill and the Instagram box are the same square. */
+    height: 2.125rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding-inline: 0.55rem;
+    transition: background-color .16s ease, color .16s ease;
+  }
+  .lang:hover { background: var(--ink); color: var(--paper); }
+  .cta { padding: 0.7rem 1.1rem; font-size: 0.7rem; }
+
+  /* --- Mobile disclosure menu (no JavaScript) --- */
+  .menu { display: none; position: relative; }
+  .menu > summary {
+    list-style: none;
+    cursor: pointer;
+    border: var(--rule) solid var(--line);
+    padding: 0.55rem 0.6rem;
+    display: grid;
+    place-items: center;
+  }
+  .menu > summary::-webkit-details-marker { display: none; }
+  .menu > summary:focus-visible { outline: 3px solid var(--electric); outline-offset: 3px; }
+  .bars { display: grid; gap: 4px; }
+  .bars i { display: block; width: 20px; height: 2px; background: var(--ink); }
+  .menu[open] > summary { background: var(--ink); }
+  .menu[open] > summary .bars i { background: var(--paper); }
+
+  .menu-panel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.55rem);
+    min-width: 15rem;
+    background: var(--paper);
+    border: var(--rule) solid var(--line);
+    display: grid;
+  }
+  .menu-link {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 1.15rem;
+    border-bottom: var(--rule) solid var(--line);
+  }
+  .menu-link:last-child { border-bottom: 0; }
+  .menu-link:hover { background: var(--periwinkle); }
+  .menu-link--cta { background: var(--ink); color: var(--paper); }
+  .menu-link--cta:hover { background: var(--electric); color: var(--paper); }
+
+  @media (max-width: 1000px) {
+    .nav { display: none; }
+    .menu { display: block; }
+  }
+  @media (max-width: 560px) {
+    .cta { display: none; }
+  }
+</style>

@@ -1,0 +1,192 @@
+/**
+ * English copy.
+ *
+ * PROVENANCE RULE: prose here is Marie & Mette's own text, taken verbatim from
+ * the original site. Do not "improve" their voice. The only edit made to their
+ * words is the misspelling "experements" -> "experiments".
+ * Strings that are pure UI (button labels, field names) are ours by necessity.
+ */
+import { MINIMUM_BOOKING } from "../lib/pricing";
+
+export const en = {
+  locale: "en",
+  htmlLang: "en",
+  label: "English",
+
+  nav: {
+    workshops: "Workshops",
+    gallery: "Gallery",
+    about: "About",
+    estimate: "Prices",
+    contact: "Contact",
+    book: "Book a workshop",
+    menu: "Menu",
+    close: "Close",
+  },
+
+  brand: {
+    name: "Wonderland Workshops",
+    tagline: "Art workshops in Amsterdam",
+  },
+
+  /** Booking rail — repeated wherever someone might decide to get in touch. */
+  book: {
+    title: "Book a workshop",
+    body: "Everything can be discussed.",
+    call: "Call us",
+    whatsapp: "WhatsApp",
+    email: "Email us",
+    instagram: "Instagram",
+    noPhoneNote: "Email is the fastest way to reach us.",
+  },
+
+  home: {
+    metaTitle: "Wonderland Workshops — Art Workshops in Amsterdam",
+    metaDescription:
+      "We run art workshops in Amsterdam for companies, teams and groups. Two Amsterdam based artists, our studio in the Red Light District, all materials included.",
+    heroTitle: "Wonderland Workshops",
+
+    // Marie & Mette's own words. Verbatim.
+    heroLead:
+      "Art workshops in the heart of Amsterdam, as teambuilding, a friend activity, bachelorparty, wedding.... You name it and we make it happen!",
+    heroClaim: "We run art workshops in Amsterdam for companies, teams and groups.",
+    heroBody:
+      "Get invited into the world of two Amsterdam based artists: in our artist studio in the famous Amsterdam Red Light District; all materials included. We speak Dutch, English and some French. From 6 to 12 people in our atelier, for as many people as you like at your office or location. Apart from the activity we provide healthy juice, food, snacks and even decoration. Everything can be discussed.",
+
+    ctaPrimary: "See the workshops",
+
+    workshopsEyebrow: "The workshops",
+    workshopsNote: `Minimum workshop booking €${MINIMUM_BOOKING} excl. VAT.`,
+    readMore: "Read more",
+
+    // Marie & Mette's own words. Verbatim, bar one misspelling.
+    introTitle: "No experience or skill required!",
+    introA:
+      "We take care of the materials. We provide a structure to help you go through an artistic process. You only have to bring yourself, going home with something you made!",
+    introB:
+      "This is an activity where you get to know each other in a new way; everybody experiments and expresses themselves! No time to get stuck, we will get everyone through.",
+
+    galleryEyebrow: "Gallery",
+    galleryMore: "See the gallery",
+  },
+
+  workshopsPage: {
+    metaTitle: "Workshops — Wonderland Workshops Amsterdam",
+    metaDescription:
+      "Merchandise, life drawing, mixed media and custom art workshops for companies, teams and groups in Amsterdam.",
+    eyebrow: "Workshops",
+    title: "The workshops",
+    lead: "From 6 to 12 people in our atelier, for as many people as you like at your office or location.",
+    duration: "Duration",
+    format: "Format",
+    price: "Price",
+    groupSize: "Group size",
+    takeaway: "What you take home",
+    goodToKnow: "Good to know",
+    allWorkshops: "All workshops",
+    bookThis: "Book this workshop",
+    estimateThis: "Check the price",
+    /* Structure labels for the index: three set workshops, then one built to order. */
+    coreEyebrow: "Three workshops",
+    customEyebrow: "Or one built for you",
+    // Marie & Mette's own words, from the hero.
+    customTitle: "You name it and we make it happen",
+    customPriceNote: "Quoted per occasion — tell us what you have in mind.",
+    customLink: "The custom workshop",
+  },
+
+  gallery: {
+    metaTitle: "Gallery — Wonderland Workshops Amsterdam",
+    metaDescription:
+      "Photographs from our art workshops in Amsterdam — the atelier, the sessions, and the work made in them.",
+    eyebrow: "Gallery",
+    title: "Gallery",
+    lead: "The atelier, the sessions, and what people make in them.",
+    note: "",
+  },
+
+  about: {
+    metaTitle: "About — Wonderland Workshops Amsterdam",
+    metaDescription:
+      "Two Amsterdam based artists running art workshops from a studio in the Red Light District.",
+    eyebrow: "About us",
+    title: "Marie & Mette",
+    lead: "Two Amsterdam based artists. We run every workshop together.",
+    // Marie & Mette's own words, from the hero paragraph.
+    bodyA:
+      "Get invited into the world of two Amsterdam based artists: in our artist studio in the famous Amsterdam Red Light District; all materials included.",
+    bodyB:
+      "Apart from the activity we provide healthy juice, food, snacks and even decoration. Everything can be discussed.",
+    languagesTitle: "Languages",
+    languages: "Dutch, English and some French",
+    whereTitle: "Where",
+    where: "Amsterdam Red Light District",
+    capacityTitle: "Group size",
+    capacity: "6 to 12 in our atelier · any number at your location",
+  },
+
+  estimate: {
+    metaTitle: "Prices — Wonderland Workshops Amsterdam",
+    metaDescription:
+      "Work out the cost of an art workshop in Amsterdam: pick a workshop, group size and location.",
+    eyebrow: "Prices",
+    title: "What does it cost?",
+    lead: "Pick a workshop and a group size to see the price. Then call or email us and we make it happen.",
+    workshopLabel: "Workshop",
+    participantsLabel: "Number of people",
+    locationLabel: "Where",
+    atStudio: "Our atelier in Amsterdam",
+    atYours: "Your office or location",
+    perPerson: "Per person",
+    people: "people",
+    subtotal: "Subtotal",
+    studioRentLabel: "Studio rent",
+    minimumNote: `Minimum booking of €${MINIMUM_BOOKING} applied`,
+    modelFeeLabel: "Live model fee",
+    exclVat: "Subtotal excl. VAT",
+    vatLabel: "VAT 21%",
+    inclVat: "Total incl. VAT",
+    capacityNote: "More than 12 people? Then we come to your office or location.",
+    disclaimer:
+      "All prices excl. 21% VAT. Travel outside Amsterdam, merchandise production and special materials are quoted separately.",
+    sendCta: "Book this workshop",
+  },
+
+  contact: {
+    metaTitle: "Contact — Wonderland Workshops Amsterdam",
+    metaDescription:
+      "Book an art workshop in Amsterdam. Call, WhatsApp or email us. We speak Dutch, English and some French.",
+    eyebrow: "Contact",
+    title: "Let's make something",
+    lead: "Tell us the occasion, roughly how many people and when. Everything can be discussed.",
+    nameLabel: "Your name",
+    emailLabel: "Email",
+    occasionLabel: "What is the occasion?",
+    peopleLabel: "How many people?",
+    dateLabel: "Rough date",
+    messageLabel: "Anything else we should know?",
+    submit: "Send",
+    sending: "Sending…",
+    successTitle: "Thank you — that reached us.",
+    successBody: "We will get back to you as soon as we can.",
+    errorBody: "That did not send. Please email us directly instead.",
+    orEmail: "Or email us directly",
+    emailAddress: "mariemettezakelijk@gmail.com",
+    phoneLabel: "Phone",
+    languagesLabel: "Languages",
+    languagesValue: "Dutch, English and some French",
+    basedLabel: "Based in",
+    basedValue: "Amsterdam, the Netherlands",
+    pricingLabel: "Pricing",
+    required: "required",
+  },
+
+  footer: {
+    blurb: "Art workshops in Amsterdam for companies, teams and groups.",
+    workshops: "Workshops",
+    studio: "Studio",
+    rights: "All rights reserved.",
+  },
+};
+
+export type Dict = typeof en;

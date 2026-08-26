@@ -1,0 +1,34 @@
+---
+import Base from "../../layouts/Base.astro";
+import BookingBar from "../BookingBar.astro";
+import EstimateCalculator from "../EstimateCalculator.astro";
+import { t, type Locale } from "../../i18n";
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const d = t(locale);
+---
+
+<Base locale={locale} path="/estimate" title={d.estimate.metaTitle} description={d.estimate.metaDescription}>
+  <section class="shell head">
+    <p class="eyebrow acc">{d.estimate.eyebrow}</p>
+    <h1 class="display-lg">{d.estimate.title}</h1>
+    <p class="lead">{d.estimate.lead}</p>
+  </section>
+
+  <section class="shell section--tight grid12">
+    <div class="calcwrap">
+      <EstimateCalculator locale={locale} />
+    </div>
+  </section>
+  <BookingBar locale={locale} />
+</Base>
+
+<style>
+  .head { padding-block-start: clamp(2rem, 6vw, 4rem); display: grid; gap: var(--s2); }
+  .acc { color: var(--electric); }
+  /* The sidebar panel here repeated this page's own lead sentence and the email
+     address the booking bar already carries, so it is gone. */
+  .calcwrap { grid-column: 1 / span 8; }
+  @media (max-width: 800px) { .calcwrap { grid-column: 1 / -1; } }
+</style>

@@ -1,0 +1,234 @@
+import type { Locale } from "../i18n";
+import type { WorkshopSlug } from "../lib/pricing";
+import { PRICE_PER_PERSON, MODEL_FEE } from "../lib/pricing";
+
+export type WorkshopImage =
+  | "merchandise-totes"
+  | "life-drawing"
+  | "life-model-setup"
+  | "mixed-media-ink"
+  | "mixed-media-collage"
+  | "w-paintings-floor"
+  | "w-hooded-portrait"
+  | "w-studio-session";
+
+export interface Workshop {
+  slug: WorkshopSlug;
+  index: string;
+  title: string;
+  tagline: string;
+  duration: string;
+  format: string;
+  intro: string;
+  body: string[];
+  outcomes: string[];
+  notes?: string[];
+  /** Thumbnail on the index and home cards. Public-facing, so keep it safe for work. */
+  image: WorkshopImage | null;
+  /** Wide image at the top of the workshop's own page. Falls back to `image`. */
+  heroImage?: WorkshopImage;
+}
+
+const en: Workshop[] = [
+  {
+    slug: "merchandise",
+    index: "01",
+    title: "Merchandise Workshop",
+    tagline: "Draw your company, then wear it.",
+    duration: "2–3 hours",
+    format: "Drawing, lettering, image-making",
+    image: "merchandise-totes",
+    intro:
+      "Participants make drawings responding to their company — colleagues, a mascot, an in-joke, an anniversary. The results can become real merchandise: T-shirts, tote bags, stickers, prints.",
+    body: [
+      "We start loose. Fast drawing exercises knock out the fear of the blank page, then the group turns its attention to the thing it actually shares: the company. What does it look like? What animal is it? What does the office sound like at 15:00?",
+      "From that pile of raw material we edit together — selecting, combining and simplifying marks until each drawing works as a graphic. Everyone leaves with something printable, and the group leaves with a small visual archive of itself.",
+    ],
+    outcomes: [
+      "A set of original drawings owned by your team",
+      "One or more artworks prepared for print",
+      "Optional production of T-shirts, totes, stickers or prints",
+    ],
+    notes: [
+      "Production details and costs vary by item, quantity and finish, and are quoted separately.",
+    ],
+  },
+  {
+    slug: "life-drawing",
+    index: "02",
+    title: "Life Drawing",
+    tagline: "Everyone is a beginner at the same thing, at the same time.",
+    duration: "Approx. 2 hours",
+    format: "Artist-led, with a live model",
+    image: "w-studio-session",
+    heroImage: "life-model-setup",
+    intro:
+      "A classic, properly taught life drawing session led by an artist, with a professional live model. Timed poses, charcoal, big paper, and a room that gets very quiet very quickly.",
+    body: [
+      "We build from thirty-second gesture poses into longer studies, changing material and constraint as we go — non-dominant hand, one continuous line, drawing only the shadow. The exercises are designed so that experience stops being an advantage after about ten minutes.",
+      "It is concentrated, slightly nerve-racking and unusually good for a team: everyone is a beginner at the same thing, at the same time.",
+    ],
+    outcomes: [
+      "A folder of drawings per participant",
+      "A shared, focused two hours with no screens",
+      "A hanging-worthy group display at the end",
+    ],
+    notes: [
+      `The €${MODEL_FEE} model fee is a fixed cost per session, added on top of the per-person price.`,
+      "The session involves a nude life model, as life drawing traditionally does. We are happy to run a clothed session instead — just ask.",
+    ],
+  },
+  {
+    slug: "mixed-media",
+    index: "03",
+    title: "Mixed Media",
+    tagline: "Distortion, humour, paint that misbehaves.",
+    duration: "2–3 hours",
+    format: "Painting, drawing, collage",
+    image: "mixed-media-ink",
+    intro:
+      "An expressive painting, drawing and collage workshop taking its energy from the freedom, distortion and psychological intensity of artists such as Joyce Pensato and Marlene Dumas — as a way of working, not as something to copy.",
+    body: [
+      "We work big and wet: enamel, ink, charcoal, torn paper, photocopies. Portraits get pushed until they wobble. Cartoon figures get taken seriously. Mistakes are treated as information rather than failure.",
+      "The point is permission. Most people arrive convinced they cannot paint and leave with something loud, strange and unmistakably theirs.",
+    ],
+    outcomes: [
+      "One or two large-format works per participant",
+      "An introduction to layering, collage and expressive mark-making",
+      "A group installation at the end of the session",
+    ],
+  },
+  {
+    slug: "custom",
+    index: "04",
+    title: "Custom Workshop",
+    tagline: "Built around your occasion.",
+    duration: "Flexible",
+    format: "Designed with you",
+    image: "w-hooded-portrait",
+    heroImage: "w-paintings-floor",
+    intro:
+      "For anniversaries, launches, away-days, farewells, bachelor parties, weddings — and things that do not have a name yet. We design the session around your occasion, your space and the group you actually have.",
+    body: [
+      "Tell us the reason, the room, the number of people and the mood you are after. We come back with a proposal: materials, structure, timing, and what everybody takes home.",
+      "Custom sessions can combine elements from our other workshops, work with your own visual identity, or start from something entirely specific to you.",
+    ],
+    outcomes: [
+      "A workshop written for your occasion",
+      "Materials and structure tailored to your space",
+      "Optional print or merchandise outcome",
+    ],
+  },
+];
+
+/** DUTCH — drafted by Claude, awaiting Ali's review. */
+const nl: Workshop[] = [
+  {
+    slug: "merchandise",
+    index: "01",
+    title: "Merchandise-workshop",
+    tagline: "Teken je bedrijf, en draag het daarna.",
+    duration: "2–3 uur",
+    format: "Tekenen, letters, beeld maken",
+    image: "merchandise-totes",
+    intro:
+      "Deelnemers maken tekeningen over hun eigen bedrijf — collega's, een mascotte, een grap die alleen jullie snappen, een jubileum. Daar kan echte merchandise van komen: T-shirts, tote bags, stickers, prints.",
+    body: [
+      "We beginnen los. Snelle tekenoefeningen halen de angst voor het lege vel eruit, en dan richt de groep zich op wat ze echt delen: het bedrijf. Hoe ziet het eruit? Welk dier is het? Hoe klinkt het kantoor om 15:00?",
+      "Uit die stapel ruw materiaal gaan we samen selecteren, combineren en vereenvoudigen tot elke tekening werkt als grafisch beeld. Iedereen gaat weg met iets dat te printen is, en de groep met een klein visueel archief van zichzelf.",
+    ],
+    outcomes: [
+      "Een set originele tekeningen van jullie team",
+      "Eén of meer werken klaargemaakt voor druk",
+      "Eventueel productie van T-shirts, totes, stickers of prints",
+    ],
+    notes: [
+      "Productiedetails en kosten verschillen per item, aantal en afwerking, en rekenen we apart.",
+    ],
+  },
+  {
+    slug: "life-drawing",
+    index: "02",
+    title: "Modeltekenen",
+    tagline: "Iedereen is beginner in hetzelfde, op hetzelfde moment.",
+    duration: "Ongeveer 2 uur",
+    format: "Gegeven door een kunstenaar, met levend model",
+    image: "w-studio-session",
+    heroImage: "life-model-setup",
+    intro:
+      "Een klassieke, goed opgebouwde modeltekensessie onder leiding van een kunstenaar, met een professioneel model. Poses op tijd, houtskool, groot papier, en een ruimte die heel snel heel stil wordt.",
+    body: [
+      "We bouwen op van poses van dertig seconden naar langere studies, en wisselen onderweg van materiaal en beperking — je andere hand, één doorlopende lijn, alleen de schaduw tekenen. De oefeningen zijn zo gemaakt dat ervaring na een kwartier geen voordeel meer is.",
+      "Het is concentreren, een beetje spannend, en opvallend goed voor een team: iedereen is beginner in hetzelfde, op hetzelfde moment.",
+    ],
+    outcomes: [
+      "Een map met tekeningen per deelnemer",
+      "Twee uur samen, gefocust, zonder schermen",
+      "Aan het eind een groepsexpositie aan de wand",
+    ],
+    notes: [
+      `De vergoeding voor het model van €${MODEL_FEE} is een vast bedrag per sessie, boven op de prijs per persoon.`,
+      "Bij deze sessie werken we met een naaktmodel, zoals bij modeltekenen gebruikelijk is. Een geklede sessie kan ook — vraag het gewoon.",
+    ],
+  },
+  {
+    slug: "mixed-media",
+    index: "03",
+    title: "Mixed Media",
+    tagline: "Vervorming, humor, verf die zich misdraagt.",
+    duration: "2–3 uur",
+    format: "Schilderen, tekenen, collage",
+    image: "mixed-media-ink",
+    intro:
+      "Een expressieve workshop schilderen, tekenen en collage, met de vrijheid, vervorming en psychologische intensiteit van kunstenaars als Joyce Pensato en Marlene Dumas als vertrekpunt — als manier van werken, niet om na te doen.",
+    body: [
+      "We werken groot en nat: lakverf, inkt, houtskool, gescheurd papier, fotokopieën. Portretten worden doorgeduwd tot ze wankelen. Stripfiguren nemen we serieus. Fouten zijn informatie, geen mislukking.",
+      "Het gaat om toestemming. De meeste mensen komen binnen met de overtuiging dat ze niet kunnen schilderen, en gaan weg met iets hards, vreemds en onmiskenbaar eigen.",
+    ],
+    outcomes: [
+      "Eén of twee werken op groot formaat per deelnemer",
+      "Een introductie in lagen, collage en expressief werken",
+      "Aan het eind een installatie van de hele groep",
+    ],
+  },
+  {
+    slug: "custom",
+    index: "04",
+    title: "Workshop op maat",
+    tagline: "Gebouwd rond jullie gelegenheid.",
+    duration: "Flexibel",
+    format: "Samen met jullie bedacht",
+    image: "w-hooded-portrait",
+    heroImage: "w-paintings-floor",
+    intro:
+      "Voor jubilea, lanceringen, heidagen, afscheid, vrijgezellenfeesten, bruiloften — en dingen die nog geen naam hebben. We ontwerpen de sessie rond jullie gelegenheid, jullie ruimte en de groep die je echt hebt.",
+    body: [
+      "Vertel ons de reden, de ruimte, het aantal mensen en de sfeer die je zoekt. Wij komen terug met een voorstel: materiaal, opbouw, timing, en wat iedereen meeneemt naar huis.",
+      "Sessies op maat kunnen onderdelen uit onze andere workshops combineren, met jullie eigen huisstijl werken, of beginnen bij iets dat helemaal specifiek van jullie is.",
+    ],
+    outcomes: [
+      "Een workshop geschreven voor jullie gelegenheid",
+      "Materiaal en opbouw afgestemd op jullie ruimte",
+      "Eventueel een print- of merchandise-resultaat",
+    ],
+  },
+];
+
+const byLocale: Record<Locale, Workshop[]> = { en, nl };
+
+export function getWorkshops(locale: Locale): Workshop[] {
+  return byLocale[locale] ?? byLocale.en;
+}
+
+export function getWorkshop(locale: Locale, slug: string): Workshop | undefined {
+  return getWorkshops(locale).find((w) => w.slug === slug);
+}
+
+export function priceLabel(locale: Locale, slug: WorkshopSlug): string {
+  // Custom workshops are quoted per occasion, so there is no honest number.
+  if (slug === "custom") return locale === "nl" ? "Prijs op aanvraag" : "Price on request";
+  const p = PRICE_PER_PERSON[slug];
+  const from = slug === "life-drawing" ? "" : locale === "nl" ? "vanaf " : "from ";
+  const suffix = locale === "nl" ? "p.p. excl. btw" : "p.p. excl. VAT";
+  return `${from}€${p} ${suffix}`;
+}

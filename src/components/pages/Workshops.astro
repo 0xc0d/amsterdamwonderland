@@ -1,0 +1,109 @@
+---
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import WorkshopCard from "../WorkshopCard.astro";
+import BookingBar from "../BookingBar.astro";
+import { t, localePath, type Locale } from "../../i18n";
+import { getWorkshops } from "../../content/workshops";
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const d = t(locale);
+
+/* Three set workshops, then the custom one on its own. Presenting all four as
+   equal cards made the offer read as a menu of four fixed things, which is not
+   what the business is. */
+const all = getWorkshops(locale);
+const core = all.filter((w) => w.slug !== "custom");
+const custom = all.find((w) => w.slug === "custom");
+
+import paintingsFloor from "../../assets/w-paintings-floor.jpg";
+import hoodedPortrait from "../../assets/w-hooded-portrait.jpg";
+import studioSession from "../../assets/w-studio-session.jpg";
+const customImages = { "w-paintings-floor": paintingsFloor, "w-studio-session": studioSession, "w-hooded-portrait": hoodedPortrait } as const;
+const customImg = custom?.image && custom.image in customImages
+  ? customImages[custom.image as keyof typeof customImages]
+  : null;
+---
+
+<Base locale={locale} path="/workshops" title={d.workshopsPage.metaTitle} description={d.workshopsPage.metaDescription}>
+  <section class="shell head">
+    <h1 class="display-lg">{d.workshopsPage.title}</h1>
+    <p class="lead">{d.workshopsPage.lead}</p>
+  </section>
+
+  <section class="shell section--tight">
+    <div class="rule between">
+      <p class="eyebrow acc">{d.workshopsPage.coreEyebrow}</p>
+      <p class="small muted">{d.home.workshopsNote}</p>
+    </div>
+    <div class="cards cards--after-rule">
+      {core.map((w) => <WorkshopCard workshop={w} locale={locale} />)}
+    </div>
+  </section>
+
+  {custom && (
+    <section class="shell section">
+      <div class="custom">
+        <div class="ctext">
+          <p class="eyebrow ceyebrow">{d.workshopsPage.customEyebrow}</p>
+          <p class="display-md ctitle">{d.workshopsPage.customTitle}</p>
+          <p class="cbody">{custom.intro}</p>
+          <p class="cact">
+            <a class="btn btn--solid" href={localePath(locale, `/workshops/${custom.slug}`)}>
+              {d.workshopsPage.customLink}
+            </a>
+          </p>
+        </div>
+        {customImg && (
+          <div class="cmedia">
+            <Image src={customImg} alt={custom.title} widths={[400, 800, 1200]}
+                   sizes="(max-width: 860px) 20rem, 25vw" loading="lazy" />
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <BookingBar locale={locale} />
+</Base>
+
+<style>
+  .head { padding-block-start: clamp(2rem, 6vw, 4rem); display: grid; gap: var(--s2); }
+  /* The eyebrow row belongs to the cards below it, so this is a small gap, not
+     another full section break. It used to carry section--tight as well, which
+     stacked two 80px margins between the page lead and the first card. */
+  .cards--after-rule { margin-block-start: var(--s3); }
+  .acc { color: var(--electric); }
+
+  /* One wide panel, deliberately not shaped like the three cards above it. */
+  .custom {
+    background: var(--periwinkle);
+    border: var(--rule) solid var(--ink);
+    padding: clamp(1.5rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.42fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+  @media (max-width: 860px) {
+    .custom { grid-template-columns: minmax(0, 1fr); }
+    /* Stacked, a full-width 4:5 box would be enormous. Keep it modest. */
+    .cmedia { max-width: 20rem; justify-self: start; }
+  }
+  .ctext { max-width: 54ch; }
+  /* The artwork is 3:4 portrait. Left to its natural height it made the panel
+     over 700px tall, so the box sets the height and the image fills it. */
+  .cmedia { border: var(--rule) solid var(--ink); overflow: hidden; aspect-ratio: 4 / 5; }
+  .cmedia img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+  }
+  .ceyebrow { color: var(--electric); margin: 0; }
+  .ctitle { margin: 0.6rem 0 0; }
+  .cbody { margin: var(--s2) 0 0; }
+  .cact { margin: var(--s3) 0 0; }
+</style>

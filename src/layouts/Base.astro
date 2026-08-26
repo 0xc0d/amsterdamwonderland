@@ -1,0 +1,107 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { t, localePath, locales, type Locale } from "../i18n";
+
+interface Props {
+  locale: Locale;
+  /** Locale-agnostic path, e.g. "/workshops" or "/". Used for hreflang + the switcher. */
+  path: string;
+  title: string;
+  description: string;
+  /** Suppress the JSON-LD block on pages where it would duplicate. */
+  structuredData?: boolean;
+}
+
+const { locale, path, title, description, structuredData = false } = Astro.props;
+const dict = t(locale);
+const site = Astro.site?.toString().replace(/\/$/, "") ?? "";
+const canonical = site + localePath(locale, path);
+const ogImage = `${site}/og.png`;
+
+const business = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Wonderland Workshops",
+  description: description,
+  url: site,
+  email: "mariemettezakelijk@gmail.com",
+  image: ogImage,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Amsterdam",
+    addressCountry: "NL",
+  },
+  areaServed: "Amsterdam",
+  knowsLanguage: ["nl", "en", "fr"],
+  makesOffer: ["Merchandise Workshop", "Life Drawing", "Mixed Media", "Custom Workshop"].map(
+    (n) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: n } }),
+  ),
+};
+---
+
+<!doctype html>
+<html lang={dict.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    {locales.map((l) => (
+      <link rel="alternate" hreflang={l} href={site + localePath(l, path)} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={site + localePath("en", path)} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Wonderland Workshops" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={locale === "nl" ? "nl_NL" : "en_GB"} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#0A70BF" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+    />
+
+    {structuredData && (
+      <script type="application/ld+json" set:html={JSON.stringify(business)} />
+    )}
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to content</a>
+    <Header locale={locale} path={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+
+    <style>
+      .skip {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        z-index: 100;
+        background: var(--ink);
+        color: var(--paper);
+        padding: 0.75rem 1.25rem;
+        font-family: var(--font-display);
+        font-size: 0.75rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-decoration: none;
+      }
+      .skip:focus { left: 0; }
+    </style>
+  </body>
+</html>

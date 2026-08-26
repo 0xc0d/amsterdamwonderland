@@ -1,0 +1,104 @@
+---
+import { t, localePath, type Locale } from "../i18n";
+import { getWorkshops } from "../content/workshops";
+import { MIN_GROUP, STUDIO_CAPACITY } from "../lib/pricing";
+import InstagramLink from "./InstagramLink.astro";
+import Icon from "./Icon.astro";
+import { PHONE_DISPLAY, telHref, hasPhone } from "../lib/config";
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const d = t(locale);
+const workshops = getWorkshops(locale);
+---
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="grid12 top">
+      <div class="col-brand stack">
+        <p class="display-md">Wonderland<br />Workshops</p>
+        <p class="small" style="max-width:26ch">{d.footer.blurb}</p>
+      </div>
+
+      <nav class="col-links" aria-label={d.footer.workshops}>
+        <p class="eyebrow head">{d.footer.workshops}</p>
+        <ul class="stack-sm">
+          {workshops.map((w) => (
+            <li>
+              <a class="flink" href={localePath(locale, `/workshops/${w.slug}`)}>{w.title}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="col-links" aria-label={d.footer.studio}>
+        <p class="eyebrow head">{d.footer.studio}</p>
+        <ul class="stack-sm">
+          <li><a class="flink" href={localePath(locale, "/about")}>{d.nav.about}</a></li>
+          <li><a class="flink" href={localePath(locale, "/gallery")}>{d.nav.gallery}</a></li>
+          <li><a class="flink" href={localePath(locale, "/estimate")}>{d.nav.estimate}</a></li>
+        </ul>
+      </nav>
+
+      <div class="col-contact">
+        <p class="eyebrow head">{d.nav.contact}</p>
+        <ul class="clist">
+          {hasPhone && (
+            <li><a class="crow" href={telHref}><Icon name="phone" size="1.05rem" /><span>{PHONE_DISPLAY}</span></a></li>
+          )}
+          <li>
+            <a class="crow" href={`mailto:${d.contact.emailAddress}`}>
+              <Icon name="mail" size="1.05rem" /><span class="cmail">{d.contact.emailAddress}</span>
+            </a>
+          </li>
+          <li><InstagramLink withHandle plain /></li>
+        </ul>
+        <p class="small muted meta">
+          {d.about.where}<br />
+          {MIN_GROUP} {locale === "nl" ? "tot" : "to"} {STUDIO_CAPACITY} {locale === "nl" ? "in het atelier" : "in the atelier"}<br />
+          {d.contact.languagesValue}
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-block-start: clamp(4rem, 10vw, 9rem);
+    border-top: var(--rule) solid var(--line);
+    padding-block: var(--s5) var(--s3);
+  }
+  .top { align-items: start; }
+  .col-brand { grid-column: span 4; }
+  .col-links { grid-column: span 2; }
+  .col-contact { grid-column: 10 / span 3; }
+  .head { color: var(--ink-soft); margin-block-end: var(--s2); }
+  .flink {
+    text-decoration: none;
+    font-size: var(--step--1);
+    border-bottom: 1px solid transparent;
+    transition: border-color .16s ease, color .16s ease;
+  }
+  .flink:hover { color: var(--pink); border-color: var(--pink); }
+  /* Real rows, so each item gets its own line regardless of inline flow. */
+  .clist { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; justify-items: start; }
+  .crow {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    text-decoration: none;
+    font-size: var(--step--1);
+    min-width: 0;
+    transition: color .16s ease;
+  }
+  .crow:hover { color: var(--pink); }
+  /* Long address: wrap, but never mid-word unless it truly cannot fit. */
+  .cmail { overflow-wrap: anywhere; word-break: normal; }
+  .meta { margin-block-start: var(--s3); }
+  @media (max-width: 800px) {
+    .col-brand { grid-column: span 6; }
+    .col-links { grid-column: span 3; }
+    .col-contact { grid-column: 1 / -1; }
+  }
+</style>
