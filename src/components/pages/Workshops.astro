@@ -38,15 +38,22 @@ const customImg = custom?.image && custom.image in customImages
     <h1 class="display-lg">{d.workshopsPage.title}</h1>
     <p class="lead">{d.workshopsPage.lead}</p>
     <p class="intro prose">{d.workshopsPage.intro}</p>
+    <p class="aboutlink">
+      <a class="btn btn--ghost" href={localePath(locale, "/about")}>{d.home.aboutMore}</a>
+    </p>
   </section>
 
   <section class="shell section--tight">
     <div class="rule between">
-      <p class="eyebrow acc">{d.workshopsPage.coreEyebrow}</p>
+      <h2 class="eyebrow acc h2reset">{d.workshopsPage.coreEyebrow}</h2>
       <p class="small muted">{d.home.workshopsNote}</p>
     </div>
     <div class="cards cards--after-rule">
-      {core.map((w) => <WorkshopCard workshop={w} locale={locale} />)}
+      {/* 3-up at the shell cap, measured at 409px per card. */}
+      {core.map((w) => (
+        <WorkshopCard workshop={w} locale={locale}
+          sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 430px" />
+      ))}
     </div>
   </section>
 
@@ -54,7 +61,7 @@ const customImg = custom?.image && custom.image in customImages
     <section class="shell section">
       <div class="custom">
         <div class="ctext">
-          <p class="eyebrow ceyebrow">{d.workshopsPage.customEyebrow}</p>
+          <h2 class="eyebrow ceyebrow h2reset">{d.workshopsPage.customEyebrow}</h2>
           <p class="display-md ctitle">{d.workshopsPage.customTitle}</p>
           <p class="cbody">{custom.intro}</p>
           <p class="cact">
@@ -77,6 +84,10 @@ const customImg = custom?.image && custom.image in customImages
 </Base>
 
 <style>
+  /* These two were <p class="eyebrow">, which left the page jumping h1 -> h3.
+     They are <h2> now; the reset keeps the rendering byte-identical. */
+  .h2reset { margin: 0; font-size: inherit; font-weight: inherit; line-height: inherit; }
+  .aboutlink { margin-block-start: var(--s3); }
   .head { padding-block-start: clamp(2rem, 6vw, 4rem); display: grid; gap: var(--s2); }
   /* Beside the serif lead on desktop, so the added paragraph does not push the
      first card below the fold. */

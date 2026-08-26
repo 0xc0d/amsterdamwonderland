@@ -25,17 +25,34 @@ const images = {
   "w-studio-session": studioSession,
 } as const;
 
-interface Props { workshop: Workshop; locale: Locale; }
-const { workshop: w, locale } = Astro.props;
+interface Props { workshop: Workshop; locale: Locale; sizes?: string; }
+const { workshop: w, locale, sizes = DEFAULT_SIZES } = Astro.props;
 const d = t(locale);
 const img = w.image ? images[w.image] : null;
 const href = localePath(locale, `/workshops/${w.slug}`);
+
+/*
+ * `sizes` is not optional. Without it the browser assumes 100vw and takes the
+ * widest candidate in the srcset, so a card rendering at 296px on the home page
+ * was handed a 1440px image. Measured, not guessed.
+ *
+ * It has to be a prop rather than a constant because .cards is an auto-fit grid
+ * (`minmax(min(100%, 17rem), 1fr)`), so the column count follows the number of
+ * cards: the home page lands 4-up at 296px, the workshops index 3-up at 409px.
+ * A single shared value over-fetches on one of them. Both callers pass a px
+ * figure rather than a vw one, because .shell is capped at --shell and the card
+ * stops growing above that while a vw unit keeps climbing.
+ */
+const DEFAULT_SIZES = "(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 430px";
 ---
 
 <a class="card" href={href}>
   <div class="media">
     {img ? (
-      <Image src={img} alt={w.title} class="ratio-43" widths={[400, 700, 1000]} loading="lazy" />
+      <Image src={img} alt={w.imageAlt} class="ratio-43"
+             widths={[320, 400, 500, 700, 1000]}
+             sizes={sizes}
+             loading="lazy" />
     ) : (
       <div class="ratio-43 nomedia" aria-hidden="true">
       </div>

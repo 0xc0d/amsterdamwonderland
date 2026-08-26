@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import Base from "../../layouts/Base.astro";
 import BookingBar from "../BookingBar.astro";
-import { t, type Locale } from "../../i18n";
+import { t, localePath, type Locale } from "../../i18n";
 
 // Existing studio/session photographs
 import groupLaughing from "../../assets/group-laughing.jpg";
@@ -97,11 +97,11 @@ const nl = locale === "nl";
 const items = [
   { src: groupLaughing,      alt: nl ? "De groep lacht rond de tafels in het atelier" : "The group laughing around the tables in the atelier" },
   { src: wSwirlPortrait,     alt: nl ? "Portret in blauw en rood, gemaakt in een sessie" : "Portrait in blue and red made in a session" },
-  { src: wStudioSession,     alt: nl ? "Modeltekensessie in het atelier" : "A life drawing session in the atelier" },
+  { src: wStudioSession,     alt: nl ? "Modeltekensessie gezien over de tafels van het atelier" : "A model drawing session seen across the studio tables" },
   { src: mToteOwl,           alt: nl ? "Tote bag bedrukt met een tekening uit een workshop" : "Tote bag printed with a drawing from a workshop" },
   { src: wRedPortrait,       alt: nl ? "Rood portret in oliepastel" : "Red portrait in oil pastel" },
   { src: sessionTables,      alt: nl ? "Deelnemers aan het tekenen aan de tafels" : "Participants drawing at the tables" },
-  { src: wCharcoalFace,      alt: nl ? "Houtskoolportret" : "Charcoal portrait" },
+  { src: wCharcoalFace,      alt: nl ? "Houtskoolportret, gezicht naar het licht gedraaid" : "Charcoal portrait, face turned to the light" },
   { src: wFloorColour,       alt: nl ? "Werk uit een sessie, uitgelegd op de vloer" : "Work from a session laid out on the floor" },
   { src: wBlueOnOrange,      alt: nl ? "Figuur in blauw op oranje achtergrond" : "Figure in blue on an orange ground" },
   { src: artistTeaching,     alt: nl ? "Een van de kunstenaars helpt twee deelnemers" : "One of the artists helping two participants" },
@@ -126,16 +126,16 @@ const items = [
   { src: wRedBluePortrait,   alt: nl ? "Portret in rood en blauw" : "Portrait in red and blue" },
   { src: wSketchbooks,       alt: nl ? "Schetsboeken naast elkaar" : "Sketchbooks side by side" },
   { src: participant,        alt: nl ? "Deelnemers lachen om een tekening" : "Participants laughing over a drawing" },
-  { src: wCharcoalPortrait,  alt: nl ? "Houtskoolportret" : "Charcoal portrait" },
+  { src: wCharcoalPortrait,  alt: nl ? "Houtskoolportret in losse, zware halen" : "Charcoal portrait in loose, heavy strokes" },
   { src: wPinkPair,          alt: nl ? "Twee werken in roze en blauw" : "Two works in pink and blue" },
   { src: wDrawingOverhead,   alt: nl ? "Deelnemer aan het tekenen, van bovenaf" : "A participant drawing, seen from above" },
   { src: mFramedAndShirt,    alt: nl ? "Ingelijst werk naast een bedrukt shirt" : "A framed work beside a printed shirt" },
-  { src: wPairDrawing,       alt: nl ? "Twee deelnemers aan het werk in het atelier" : "Two participants at work in the atelier" },
+  { src: wPairDrawing,       alt: nl ? "Twee deelnemers tekenen naast elkaar aan de tafel" : "Two participants drawing side by side at the table" },
   { src: concentrating,      alt: nl ? "Een deelnemer concentreert zich boven een tekenplank" : "A participant concentrating over a drawing board" },
   { src: wFloorCharcoal,     alt: nl ? "Houtskoolwerk uitgelegd op de vloer" : "Charcoal work laid out on the floor" },
   { src: wSketchbookTriptych,alt: nl ? "Schetsboek met drie tekeningen" : "Sketchbook with three drawings" },
   { src: artistGuiding,      alt: nl ? "Een kunstenaar begeleidt deelnemers aan de tafel" : "An artist guiding participants at the table" },
-  { src: lifeDrawing,        alt: nl ? "Modeltekensessie in het atelier" : "A life drawing session in the atelier" },
+  { src: lifeDrawing,        alt: nl ? "Modeltekensessie in volle gang bij de ezels" : "A model drawing session in progress at the easels" },
   { src: wPastelSeatedPurple,   alt: nl ? "Zittende figuur in oliepastel, paarse achtergrond" : "Seated figure in oil pastel on a purple ground" },
   { src: wYellowDressFigure,    alt: nl ? "Figuur met gele vorm, houtskool en pastel" : "Figure with a yellow form, charcoal and pastel" },
   { src: wCharcoalArmsUp,       alt: nl ? "Houtskoolfiguur met de armen omhoog" : "Charcoal figure with raised arms" },
@@ -155,14 +155,14 @@ const items = [
   { src: wRedGreyProfiles,      alt: nl ? "Twee profielen in rood, grijs en geel" : "Two profiles in red, grey and yellow" },
   { src: wGlassesPastel,        alt: nl ? "Portret met bril in pastel" : "Portrait with glasses in pastel" },
   { src: wCharcoalRedFace,      alt: nl ? "Gezicht in houtskool met rood" : "Face in charcoal with red" },
-  { src: wSessionTwoEasels,     alt: nl ? "Twee deelnemers aan het werk in het atelier" : "Two participants at work in the atelier" },
+  { src: wSessionTwoEasels,     alt: nl ? "Twee deelnemers werken aan naburige ezels" : "Two participants working at neighbouring easels" },
   { src: wFloorSpreadWorks,     alt: nl ? "Werk uit een sessie uitgelegd op de vloer" : "Work from a session spread out on the floor" },
   { src: wBlueFaceRedFrame,     alt: nl ? "Blauw gezicht met rode rand" : "Blue face with a red border" },
-  { src: wOchreCurlyCharcoal,   alt: nl ? "Portret in oker en houtskool" : "Portrait in ochre and charcoal" },
+  { src: wOchreCurlyCharcoal,   alt: nl ? "Portret in oker en houtskool, krullend haar" : "Portrait in ochre and charcoal, curly hair" },
   { src: wCurlsCharcoalAbstract, alt: nl ? "Houtskooltekening met krullen" : "Charcoal drawing with curls" },
   { src: wCharcoalSeatedArms,   alt: nl ? "Zittende figuur in houtskool" : "Seated figure in charcoal" },
   { src: wMarkerPinkBlueFace,   alt: nl ? "Gezicht in roze en blauwe stift" : "Face in pink and blue marker" },
-  { src: wOchreBaldPortrait,    alt: nl ? "Portret in oker en houtskool" : "Portrait in ochre and charcoal" },
+  { src: wOchreBaldPortrait,    alt: nl ? "Kaal portret in oker en houtskool" : "Bald portrait in ochre and charcoal" },
   { src: wHoodedPortrait,       alt: nl ? "Portret met capuchon in houtskool en pastel" : "Hooded portrait in charcoal and pastel" },
   { src: wBeardedPortrait,      alt: nl ? "Portret met baard in houtskool" : "Bearded portrait in charcoal" },
 ];
@@ -176,6 +176,7 @@ const items = [
   description={d.gallery.metaDescription}
   pageType="ImageGallery"
   crumbs={[{ name: d.nav.gallery }]}
+  pageImage={items[0].src.src}
 >
   <section class="shell head">
     <h1 class="display-lg">{d.gallery.title}</h1>
@@ -183,6 +184,9 @@ const items = [
     <div class="intro prose">
       <p>{d.gallery.bodyA}</p>
       <p>{d.gallery.bodyB}</p>
+      <p>
+        {d.gallery.bodyC1}<a href={localePath(locale, "/workshops/life-drawing")}>{d.gallery.bodyCLink1}</a>{d.gallery.bodyC2}<a href={localePath(locale, "/workshops/merchandise")}>{d.gallery.bodyCLink2}</a>{d.gallery.bodyC3}<a href={localePath(locale, "/workshops/mixed-media")}>{d.gallery.bodyCLink3}</a>{d.gallery.bodyC4}
+      </p>
     </div>
   </section>
 

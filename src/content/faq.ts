@@ -248,6 +248,44 @@ export function generalFaq(locale: Locale): FaqItem[] {
   return locale === "nl" ? generalNl : generalEn;
 }
 
+/**
+ * The subset shown on the home page, which then links to /faq for the rest.
+ *
+ * Deliberately NOT the full set. Repeating all ten answers on both the home
+ * page and /faq would put near-identical blocks on two URLs, and Google then
+ * has to choose which one to rank. Five here keeps the home page substantial
+ * while leaving /faq as the only place that holds everything.
+ *
+ * Chosen by what a first-time visitor asks before anything else: where, whether
+ * they need to be able to draw, what it costs, whether it suits a team, and how
+ * to book. Indices into the arrays above rather than copies, so an edit to an
+ * answer cannot apply to one page and miss the other.
+ */
+const HOME_PICKS_EN = [0, 1, 3, 7, 9];
+const HOME_PICKS_NL = [0, 1, 4, 2, 10];
+
+export function homeFaq(locale: Locale): FaqItem[] {
+  const [all, picks] =
+    locale === "nl" ? [generalNl, HOME_PICKS_NL] : [generalEn, HOME_PICKS_EN];
+  return picks.map((i) => all[i]).filter(Boolean);
+}
+
+/** Every question on the site, general first then grouped by workshop. */
+export function allFaqSections(
+  locale: Locale,
+  workshopTitles: Record<WorkshopSlug, string>,
+  generalHeading: string,
+): { heading: string; items: FaqItem[] }[] {
+  const slugs: WorkshopSlug[] = ["merchandise", "life-drawing", "mixed-media", "custom"];
+  return [
+    { heading: generalHeading, items: generalFaq(locale) },
+    ...slugs.map((slug) => ({
+      heading: workshopTitles[slug],
+      items: workshopFaq(locale, slug),
+    })),
+  ];
+}
+
 export function workshopFaq(locale: Locale, slug: WorkshopSlug): FaqItem[] {
   return (locale === "nl" ? perWorkshopNl : perWorkshopEn)[slug] ?? [];
 }

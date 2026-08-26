@@ -96,9 +96,22 @@ const config = {
       return `<div class="line ${cls || ""}"><span>${label}</span><span>${value}</span></div>`;
     }
 
+    /* The input declares min="1" max="200", but those only bite on form
+       submission and this form is never submitted. Typing 9999 quoted
+       EUR 649,935 and typing -5 quoted from 1 while the field still read -5.
+       Clamp here, and write the clamped value back so the field agrees with
+       the figure underneath it. Blank is left alone so the field can be
+       cleared while typing. */
+    const MIN_PEOPLE = 1;
+    const MAX_PEOPLE = 200;
+
     function render() {
       const slug = form.workshop.value;
-      const people = parseInt(form.people.value, 10) || 1;
+      const raw = form.people.value;
+      let people = parseInt(raw, 10) || MIN_PEOPLE;
+      if (people < MIN_PEOPLE) people = MIN_PEOPLE;
+      if (people > MAX_PEOPLE) people = MAX_PEOPLE;
+      if (raw !== "" && String(people) !== raw) form.people.value = String(people);
       const wantsStudio = form.where.value === "studio";
       const r = calc(slug, people, wantsStudio);
       const L = config.labels;

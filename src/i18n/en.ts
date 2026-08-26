@@ -23,6 +23,7 @@ export const en = {
     gallery: "Gallery",
     about: "About",
     estimate: "Prices",
+    faq: "FAQ",
     contact: "Contact",
     book: "Book a workshop",
     menu: "Menu",
@@ -80,9 +81,14 @@ export const en = {
 
     galleryEyebrow: "Gallery",
     galleryMore: "See the gallery",
+    /* About had zero contextual inbound links: it was reachable only from the
+       nav and the footer, despite carrying the Rietveld credential and both
+       artists' names. Used here and on the workshops index. */
+    aboutMore: "Meet Marie & Mette",
 
     faqEyebrow: "Questions",
     faqTitle: "Booking a workshop",
+    faqMore: "All questions",
   },
 
   workshopsPage: {
@@ -109,14 +115,31 @@ export const en = {
     bookThis: "Book this workshop",
     estimateThis: "Check the price",
     /* Structure labels for the index: three set workshops, then one built to order. */
-    coreEyebrow: "Three workshops",
-    customEyebrow: "Or one built for you",
+    /* Real <h2>s, not styled <p>s: the page used to jump h1 -> h3. Reworded
+       because an h2 reading "Three workshops" said nothing. */
+    coreEyebrow: "Three workshops to choose from",
+    customEyebrow: "Or one built for your occasion",
     // Marie & Mette's own words, from the custom workshop section.
     customTitle: "Your wish, our command!",
     customPriceNote: "Quoted per occasion. Tell us what you have in mind.",
     customLink: "The custom workshop",
     faqEyebrow: "Questions",
     faqTitle: "About this workshop",
+  },
+
+  /* The dedicated FAQ page. The home page shows five of these questions and
+     links here for the rest, so no two pages carry the same answers. */
+  faqPage: {
+    metaTitle: "Art Workshop FAQ, Amsterdam | Wonderland Workshops",
+    metaDescription:
+      "Answers about our art workshops in Amsterdam: what they cost, how many people fit, whether you need to be able to draw, what is included, and how to book.",
+    eyebrow: "Questions",
+    title: "Questions about our workshops",
+    lead: "Everything people ask us before booking. If your question is not here, call or email us and we will answer it.",
+    generalHeading: "General",
+    generalEyebrow: "Before you book",
+    perWorkshopEyebrow: "By workshop",
+    stillStuck: "Not answered here?",
   },
 
   gallery: {
@@ -133,6 +156,16 @@ export const en = {
       "Everything here was made in our atelier in the Amsterdam Red Light District, or at a company's own office, by people who mostly had not drawn anything in years. Ink portraits, charcoal figures, collage, and tote bags and shirts printed in the merch workshop.",
     bodyB:
       "If you are trying to picture what a workshop actually looks like before you book one, this is it: tables covered in paper, work drying on the floor, and a group two hours further in than they expected to get.",
+    /* Third paragraph, added because this page carried 160 words against 71
+       photographs. Names the three workshops that produced the work, and links
+       to them: the gallery had no outbound contextual links at all. */
+    bodyC1: "Most of the drawings and paintings here came out of the ",
+    bodyCLink1: "(nude) model drawing",
+    bodyC2: " sessions, the prints and tote bags out of ",
+    bodyCLink2: "make your own merch",
+    bodyC3: ", and the collages and ink work out of ",
+    bodyCLink3: "mixed media",
+    bodyC4: ". Nearly all of it was made in a single session, by a group that arrived with no plan.",
     note: "",
   },
 

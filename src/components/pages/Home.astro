@@ -6,7 +6,7 @@ import BookingBar from "../BookingBar.astro";
 import Faq from "../Faq.astro";
 import { t, localePath, type Locale } from "../../i18n";
 import { getWorkshops } from "../../content/workshops";
-import { generalFaq } from "../../content/faq";
+import { homeFaq } from "../../content/faq";
 
 import hero from "../../assets/hero-collage.png";
 import participant from "../../assets/participant-drawing.jpg";
@@ -21,7 +21,8 @@ interface Props { locale: Locale; }
 const { locale } = Astro.props;
 const d = t(locale);
 const workshops = getWorkshops(locale);
-const faq = generalFaq(locale);
+/* Five, not all ten. The rest live on /faq; see the note on homeFaq(). */
+const faq = homeFaq(locale);
 
 /* The old 11vw cap on the H1 existed because "WORKSHOPS" is a single
    unbreakable word wider than a 390px viewport at --step-5. The H1 is now a
@@ -39,6 +40,7 @@ const titleCap = `${Math.min(11, Math.round(1360 / longestWord) / 10)}vw`;
   title={d.home.metaTitle}
   description={d.home.metaDescription}
   faq={faq}
+  pageImage={hero.src}
 >
   <!-- ============ HERO — Marie & Mette's own words, in their order ============ -->
   <section class="shell hero">
@@ -77,7 +79,11 @@ const titleCap = `${Math.min(11, Math.round(1360 / longestWord) / 10)}vw`;
     </div>
 
     <div class="cards cards--after-rule">
-      {workshops.map((w) => <WorkshopCard workshop={w} locale={locale} />)}
+      {/* 4-up at the shell cap, measured at 296px per card. */}
+      {workshops.map((w) => (
+        <WorkshopCard workshop={w} locale={locale}
+          sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 320px" />
+      ))}
     </div>
   </section>
 
@@ -89,6 +95,9 @@ const titleCap = `${Math.min(11, Math.round(1360 / longestWord) / 10)}vw`;
         <p>{d.home.introA}</p>
         <p>{d.home.introB}</p>
       </div>
+      <p class="aboutlink">
+        <a class="btn btn--ghost" href={localePath(locale, "/about")}>{d.home.aboutMore}</a>
+      </p>
     </div>
 
     <div class="trio">
@@ -117,10 +126,17 @@ const titleCap = `${Math.min(11, Math.round(1360 / longestWord) / 10)}vw`;
   </section>
 
   <!-- ============ FAQ — the phrasings people actually search ============ -->
-  <Faq eyebrow={d.home.faqEyebrow} title={d.home.faqTitle} items={faq} />
+  <Faq
+    eyebrow={d.home.faqEyebrow}
+    title={d.home.faqTitle}
+    items={faq}
+    moreHref={localePath(locale, "/faq")}
+    moreLabel={d.home.faqMore}
+  />
 </Base>
 
 <style>
+  .aboutlink { margin-block-start: var(--s3); }
   /* Small gap: the eyebrow row above belongs to these cards. It used to carry
      section--tight, stacking a second full section margin under the rule. */
   .cards--after-rule { margin-block-start: var(--s3); }

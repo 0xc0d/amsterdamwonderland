@@ -22,6 +22,7 @@ export const nl: Dict = {
     gallery: "Galerie",
     about: "Over ons",
     estimate: "Prijzen",
+    faq: "Vragen",
     contact: "Contact",
     book: "Workshop boeken",
     menu: "Menu",
@@ -74,9 +75,11 @@ export const nl: Dict = {
 
     galleryEyebrow: "Galerie",
     galleryMore: "Bekijk de galerie",
+    aboutMore: "Maak kennis met Marie & Mette",
 
     faqEyebrow: "Vragen",
     faqTitle: "Een workshop boeken",
+    faqMore: "Alle vragen",
   },
 
   workshopsPage: {
@@ -98,14 +101,28 @@ export const nl: Dict = {
     allWorkshops: "Alle workshops",
     bookThis: "Boek deze workshop",
     estimateThis: "Bekijk de prijs",
-    coreEyebrow: "Drie workshops",
-    customEyebrow: "Of één op maat",
+    coreEyebrow: "Drie workshops om uit te kiezen",
+    customEyebrow: "Of één op maat voor jullie gelegenheid",
     // THEIRS, from the custom workshop section.
     customTitle: "U vraagt, wij draaien",
     customPriceNote: "Prijs per gelegenheid. Vertel ons wat je in gedachten hebt.",
     customLink: "De workshop op maat",
     faqEyebrow: "Vragen",
     faqTitle: "Over deze workshop",
+  },
+
+  /* Zie de toelichting in en.ts. */
+  faqPage: {
+    metaTitle: "Veelgestelde vragen kunstworkshops Amsterdam",
+    metaDescription:
+      "Antwoorden over onze kunstworkshops in Amsterdam: wat ze kosten, voor hoeveel personen, of je moet kunnen tekenen, wat inbegrepen is, en hoe je boekt.",
+    eyebrow: "Vragen",
+    title: "Vragen over onze workshops",
+    lead: "Alles wat mensen ons vragen voordat ze boeken. Staat jouw vraag er niet bij? Bel of mail ons en we antwoorden.",
+    generalHeading: "Algemeen",
+    generalEyebrow: "Voordat je boekt",
+    perWorkshopEyebrow: "Per workshop",
+    stillStuck: "Staat je vraag er niet bij?",
   },
 
   gallery: {
@@ -120,11 +137,20 @@ export const nl: Dict = {
       "Alles hier is gemaakt in ons atelier op de Amsterdamse Wallen, of op het kantoor van een bedrijf, door mensen die meestal jaren niets hadden getekend. Inktportretten, houtskoolfiguren, collage, en linnen tassen en shirts geprint in de merch-workshop.",
     bodyB:
       "Als je wilt zien hoe een workshop er echt uitziet voordat je er een boekt: dit is het. Tafels vol papier, werk dat op de vloer ligt te drogen, en een groep die twee uur verder is dan ze had verwacht te komen.",
+    bodyC1: "De meeste tekeningen en schilderijen hier komen uit de sessies ",
+    bodyCLink1: "(naakt)modeltekenen",
+    bodyC2: ", de prints en tote bags uit ",
+    bodyCLink2: "Maak je eigen merch",
+    bodyC3: ", en de collages en het inktwerk uit ",
+    bodyCLink3: "mixed media",
+    bodyC4: ". Bijna alles is gemaakt in één sessie, door een groep die zonder plan binnenkwam.",
     note: "",
   },
 
   about: {
-    metaTitle: "Marie & Mette, Amsterdamse kunstenaars | Wonderland Workshops",
+    /* 61 characters, so it truncated in the result. Drops the brand name
+       rather than the keyword: the brand has no search volume yet. */
+    metaTitle: "Over Marie & Mette | Kunstworkshops Amsterdam",
     metaDescription:
       "Marie en Mette ontmoetten elkaar op de Gerrit Rietveld Academie en geven kunstworkshops in Amsterdam vanuit hun atelier op de Wallen, voor bedrijven en groepen.",
     eyebrow: "Wie zijn wij?",
@@ -157,7 +183,7 @@ export const nl: Dict = {
   estimate: {
     metaTitle: "Wat kost een kunstworkshop in Amsterdam? | Prijzen",
     metaDescription:
-      "Wat een kunstworkshop in Amsterdam kost. Kies een workshop, groepsgrootte en locatie en zie de prijs, inclusief btw, atelierhuur en de vergoeding voor het model.",
+      "Wat een kunstworkshop in Amsterdam kost. Kies workshop, groepsgrootte en locatie en zie direct de prijs, inclusief btw, atelierhuur en modelvergoeding.",
     eyebrow: "Prijzen",
     title: "Wat kost een kunstworkshop?",
     lead: "Kies een workshop en een groepsgrootte om de prijs te zien. Bel of mail ons daarna en wij maken het waar.",

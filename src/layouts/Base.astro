@@ -20,6 +20,8 @@ interface Props {
   faq?: FaqItem[];
   /** Set on a workshop's own page so its Service and Offer are emitted. */
   workshopSlug?: WorkshopSlug;
+  /** This page's own lead image, for primaryImageOfPage. Root-relative is fine. */
+  pageImage?: string;
 }
 
 const {
@@ -31,6 +33,7 @@ const {
   crumbs = [],
   faq,
   workshopSlug,
+  pageImage,
 } = Astro.props;
 
 const dict = t(locale);
@@ -59,6 +62,9 @@ const graph = buildGraph({
   crumbs: trail,
   faq,
   workshopSlug,
+  pageImage: pageImage
+    ? (pageImage.startsWith("http") ? pageImage : site + pageImage)
+    : undefined,
 });
 ---
 

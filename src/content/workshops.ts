@@ -44,6 +44,12 @@ export interface Workshop {
   notes?: string[];
   /** Thumbnail on the index and home cards. Public-facing, so keep it safe for work. */
   image: WorkshopImage | null;
+  /**
+   * Alt text for the card thumbnail. It used to be `title`, which repeated the
+   * <h3> directly beneath the image verbatim: nothing for Google Images, and a
+   * stutter for a screen reader. Describes the photograph instead.
+   */
+  imageAlt: string;
   /** Wide image at the top of the workshop's own page. Falls back to `image`. */
   heroImage?: WorkshopImage;
 }
@@ -71,6 +77,7 @@ const en: Workshop[] = [
     duration: "2 to 3 hours",
     format: "Brainstorm, drawing, silk screen printing",
     image: "merchandise-totes",
+    imageAlt: "Tote bags screen printed by a team in the make your own merch workshop",
     intro:
       "In this workshop co-workers are challenged to get to the core of their workplace and capture it in one image, that will be used to create custom merch on second hand textiles, like tote bags, shirts, jackets and anything made of fabric that the participants bring themselves!",
     metaDescription: `Make your own merch in Amsterdam: get to the core of your workplace, capture it in one image, and we silk screen it onto textiles you bring. From EUR ${P.merchandise} p.p.`,
@@ -100,6 +107,7 @@ const en: Workshop[] = [
     format: "Artist led, with a live model",
     // Ali's pick (DSCF2458crop.JPG). On the card as well as the page hero.
     image: "life-model-setup",
+    imageAlt: "Drawing boards and the model's chair set up in the atelier before a session",
     intro:
       "In a series of exercises we warm up to explore different positions and drawing techniques. Participants work together by continuing each others works, loosening up with a very playful approach. In the last hour everybody works on their own drawing or painting, that can be taken home as a beautiful souvenir of the day.",
     metaDescription: `(Nude) model drawing and painting in Amsterdam, artist led with a live model. No experience needed. EUR ${P["life-drawing"]} p.p. plus a EUR ${MODEL_FEE} model fee per session.`,
@@ -127,6 +135,7 @@ const en: Workshop[] = [
     duration: "2 to 3 hours",
     format: "Collage, ink, comté and charcoal",
     image: "mixed-media-ink",
+    imageAlt: "An ink drawing in progress in the mixed media workshop",
     intro:
       "This is a real artistic workshop, where we will draw inspiration from different artists, to take everybody through a journey of creative expression!",
     metaDescription: `A mixed media art workshop in Amsterdam: collage, ink and charcoal in two to three hours. Thrown into the deep, no experience needed. From EUR ${P["mixed-media"]} p.p.`,
@@ -152,6 +161,7 @@ const en: Workshop[] = [
     duration: "Flexible",
     format: "Designed with you",
     image: "w-hooded-portrait",
+    imageAlt: "A hooded portrait in oil pastel from a workshop built around one group's occasion",
     heroImage: "w-paintings-floor",
     intro:
       "For teambuilding, company outings, get-togethers, friend group activities and bachelor parties... Or any other occasion you can think of. We design the session around your occasion, your space and the group you actually have.",
@@ -181,6 +191,7 @@ const nl: Workshop[] = [
     duration: "2 tot 3 uur",
     format: "Brainstorm, tekenen, zeefdruk",
     image: "merchandise-totes",
+    imageAlt: "Tote bags gezeefdrukt door een team in de merch-workshop",
     intro:
       "In deze workshop worden collega's uitgedaagd om tot de kern van hun werkplek te komen en die te vangen in een beeld. Dit beeld wordt gebruikt om zelfgemaakte merch te creëren op tweedehands textiel, zoals linnen tassen, shirts, jasjes, en al het andere van stof dat deelnemers meenemen!",
     metaDescription: `Maak je eigen merch in Amsterdam: vang de kern van jullie werkplek in één beeld, en wij zeefdrukken het op textiel dat jullie meenemen. Vanaf EUR ${P.merchandise} p.p.`,
@@ -208,6 +219,7 @@ const nl: Workshop[] = [
     format: "Gegeven door een kunstenaar, met levend model",
     // Ali's pick (DSCF2458crop.JPG). On the card as well as the page hero.
     image: "life-model-setup",
+    imageAlt: "Tekenplanken en de stoel van het model klaar in het atelier",
     intro:
       "In een serie oefeningen warmen we op om verschillende posities en tekentechnieken uit te proberen. De deelnemers werken samen door steeds in elkaars tekeningen verder te werken, loskomend met een speelse aanpak. In het laatste uur werkt iedereen aan zijn eigen tekening of schilderij, die kunnen worden meegenomen als mooi aandenken aan deze dag!",
     metaDescription: `(Naakt) model tekenen en schilderen in Amsterdam, met levend model en begeleiding van een kunstenaar. Geen ervaring nodig. EUR ${P["life-drawing"]} p.p. plus EUR ${MODEL_FEE} model.`,
@@ -234,6 +246,7 @@ const nl: Workshop[] = [
     duration: "2 tot 3 uur",
     format: "Collage, inkt, houtskool",
     image: "mixed-media-ink",
+    imageAlt: "Een inkttekening in wording tijdens de mixed media-workshop",
     intro:
       "Dit is een echte kunstworkshop, waarin we inspiratie halen uit verschillende kunstenaars, zodat iedereen wordt meegenomen op een creatieve reis!",
     metaDescription: `Een mixed media kunstworkshop in Amsterdam: collage, inkt en houtskool in twee tot drie uur. Geen ervaring nodig. Vanaf EUR ${P["mixed-media"]} p.p. excl. btw.`,
@@ -259,6 +272,7 @@ const nl: Workshop[] = [
     duration: "Flexibel",
     format: "Samen met jullie bedacht",
     image: "w-hooded-portrait",
+    imageAlt: "Portret met capuchon in oliepastel, uit een workshop op maat",
     heroImage: "w-paintings-floor",
     intro:
       "Voor teambuilding, bedrijfsuitjes, samenkomsten met collega's, vriendenactiviteiten, vrijgezellenfeestjes... en elke andere gelegenheid die je kunt bedenken. We ontwerpen de sessie rond jullie gelegenheid, jullie ruimte en de groep die je echt hebt.",

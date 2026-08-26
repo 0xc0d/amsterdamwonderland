@@ -1,0 +1,71 @@
+---
+/**
+ * The dedicated questions page: /faq and /nl/faq.
+ *
+ * WHY IT IS SEPARATE FROM THE HOME PAGE BLOCK. The home page shows five
+ * questions and links here; this page holds all twenty-two, general first and
+ * then grouped by workshop. Putting the same answers on both would give Google
+ * two URLs with near-identical blocks and force it to pick one, so the two sets
+ * are deliberately different sizes and the home page keeps only the five a
+ * first-time visitor asks first. Both sets come from the same arrays in
+ * src/content/faq.ts, so an edit to an answer can never apply to one page and
+ * miss the other.
+ *
+ * Slug note: /nl/faq, not /nl/veelgestelde-vragen. Every other route on the site
+ * shares its slug across locales (/nl/workshops, /nl/about, /nl/gallery), and a
+ * localised slug for this one page would mean special-casing localePath() and
+ * the hreflang block in Base.astro. A keyword in the URL is a weak signal and
+ * not worth that inconsistency.
+ */
+import Base from "../../layouts/Base.astro";
+import BookingBar from "../BookingBar.astro";
+import Faq from "../Faq.astro";
+import { t, type Locale } from "../../i18n";
+import { getWorkshops } from "../../content/workshops";
+import { allFaqSections } from "../../content/faq";
+import type { WorkshopSlug } from "../../lib/pricing";
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const d = t(locale);
+
+/* Section headings for the per-workshop groups come from the workshop records,
+   so they always match the titles used everywhere else on the site. */
+const titles = Object.fromEntries(
+  getWorkshops(locale).map((w) => [w.slug, w.title]),
+) as Record<WorkshopSlug, string>;
+
+const sections = allFaqSections(locale, titles, d.faqPage.generalHeading);
+
+/* Every question on the page feeds one FAQPage node, built in src/lib/seo.ts. */
+const allItems = sections.flatMap((s) => s.items);
+---
+
+<Base
+  locale={locale}
+  path="/faq"
+  title={d.faqPage.metaTitle}
+  description={d.faqPage.metaDescription}
+  crumbs={[{ name: d.nav.faq }]}
+  faq={allItems}
+>
+  <section class="shell head">
+    <p class="eyebrow acc">{d.faqPage.eyebrow}</p>
+    <h1 class="display-lg">{d.faqPage.title}</h1>
+    <p class="lead">{d.faqPage.lead}</p>
+  </section>
+
+  {sections.map((s, i) => (
+    <Faq eyebrow={i === 0 ? d.faqPage.generalEyebrow : d.faqPage.perWorkshopEyebrow}
+         title={s.heading}
+         items={s.items}
+         openFirst={i === 0} />
+  ))}
+
+  <BookingBar locale={locale} />
+</Base>
+
+<style>
+  .head { padding-block-start: clamp(2rem, 6vw, 4rem); display: grid; gap: var(--s2); }
+  .acc { color: var(--electric); }
+</style>

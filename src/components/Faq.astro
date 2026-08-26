@@ -18,8 +18,11 @@ interface Props {
   items: FaqItem[];
   /** Open the first one, so the section does not read as an empty list. */
   openFirst?: boolean;
+  /** Shows a link out of the block, e.g. the home page pointing at /faq. */
+  moreHref?: string;
+  moreLabel?: string;
 }
-const { title, eyebrow, items, openFirst = true } = Astro.props;
+const { title, eyebrow, items, openFirst = true, moreHref, moreLabel } = Astro.props;
 /* Unique per instance, so two FAQ blocks on one page cannot collide. */
 const headingId = `faq-${Math.abs(hash(title))}`;
 function hash(s: string): number {
@@ -31,8 +34,9 @@ function hash(s: string): number {
 
 {items.length > 0 && (
   <section class="shell section" aria-labelledby={headingId}>
-    <div class="rule">
+    <div class:list={["rule", moreHref && "between"]}>
       <p class="eyebrow acc">{eyebrow}</p>
+      {moreHref && <a class="btn btn--ghost" href={moreHref}>{moreLabel}</a>}
     </div>
 
     <div class="grid12 wrap">

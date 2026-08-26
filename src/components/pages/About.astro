@@ -37,12 +37,7 @@ import { ADDRESS_LINE, mapsHref } from "../../lib/config";
 import portraitMarie from "../../assets/artist-marie.jpg";
 import portraitMette from "../../assets/artist-mette.jpg";
 import studio from "../../assets/artist-teaching.jpg";
-/* TO ADD MARIE AT WORK: drop the file in as src/assets/artist-marie-camera.jpg,
-   uncomment the import below, and add it to the `atWork` array. The section
-   renders one photo full width and two side by side, so nothing else changes.
-   Ali pasted this photo into chat rather than saving it, so the file is not on
-   disk yet: Marie photographing something under a market canopy on the street. */
-// import marieAtWork from "../../assets/artist-marie-camera.jpg";
+import marieAtWork from "../../assets/artist-marie-camera.jpg";
 
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
@@ -73,17 +68,19 @@ const artists = [
    renders full width; two render as a pair. */
 const atWork = [
   {
+    src: marieAtWork,
+    alt: locale === "nl"
+      ? "Marie fotografeert op straat in Amsterdam, onder het zeil van een marktkraam"
+      : "Marie photographing on the street in Amsterdam, under a market stall canopy",
+    caption: d.about.marieCaption,
+  },
+  {
     src: studio,
     alt: locale === "nl"
       ? "Mette begeleidt twee deelnemers tijdens een kunstworkshop in het atelier in Amsterdam"
       : "Mette guiding two participants during an art workshop in the Amsterdam atelier",
     caption: d.about.studioCaption,
   },
-  // { src: marieAtWork,
-  //   alt: locale === "nl"
-  //     ? "Marie fotografeert op straat in Amsterdam"
-  //     : "Marie photographing on the street in Amsterdam",
-  //   caption: d.about.marieCaption },
 ];
 ---
 
@@ -94,6 +91,7 @@ const atWork = [
   description={d.about.metaDescription}
   pageType="AboutPage"
   crumbs={[{ name: d.nav.about }]}
+  pageImage={portraitMarie.src}
 >
   <section class="shell head">
     <p class="eyebrow acc">{d.about.eyebrow}</p>

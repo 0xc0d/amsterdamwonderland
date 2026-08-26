@@ -217,6 +217,13 @@ export interface GraphInput {
   title: string;
   description: string;
   ogImage: string;
+  /**
+   * Absolute URL of the page's own lead image. Every page used to declare the
+   * shared og.png as its primaryImageOfPage, which told a crawler that all 20
+   * pages depict the same picture. Falls back to ogImage where a page has no
+   * lead image of its own.
+   */
+  pageImage?: string;
   /** Extra type for the page node, e.g. "AboutPage", "CollectionPage". */
   pageType?: string;
   crumbs?: Crumb[];
@@ -236,7 +243,7 @@ export interface GraphInput {
  * markup costs nothing. Do not promise Ali a rich result from this.
  */
 export function buildGraph(input: GraphInput): Json {
-  const { site, locale, canonical, title, description, ogImage } = input;
+  const { site, locale, canonical, title, description, ogImage, pageImage } = input;
   const workshops = getWorkshops(locale);
 
   const page: Json = {
@@ -252,7 +259,7 @@ export function buildGraph(input: GraphInput): Json {
     inLanguage: langTag(locale),
     isPartOf: { "@id": `${site}/#website` },
     about: { "@id": `${site}/#business` },
-    primaryImageOfPage: ogImage,
+    primaryImageOfPage: pageImage ?? ogImage,
   };
 
   if (input.faq?.length) {
