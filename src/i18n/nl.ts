@@ -183,7 +183,7 @@ export const nl: Dict = {
   estimate: {
     metaTitle: "Wat kost een kunstworkshop in Amsterdam? | Prijzen",
     metaDescription:
-      "Wat een kunstworkshop in Amsterdam kost. Kies workshop, groepsgrootte en locatie en zie direct de prijs, inclusief btw, atelierhuur en modelvergoeding.",
+      "Wat een kunstworkshop in Amsterdam kost. Kies workshop en groepsgrootte en zie direct de prijs, inclusief btw, minimale boeking en modelvergoeding.",
     eyebrow: "Prijzen",
     title: "Wat kost een kunstworkshop?",
     lead: "Kies een workshop en een groepsgrootte om de prijs te zien. Bel of mail ons daarna en wij maken het waar.",
@@ -195,15 +195,17 @@ export const nl: Dict = {
     perPerson: "Per persoon",
     people: "personen",
     subtotal: "Subtotaal",
-    studioRentLabel: "Atelierhuur",
     minimumNote: `Minimale boeking van €${MINIMUM_BOOKING} toegepast`,
     modelFeeLabel: "Vergoeding model",
     exclVat: "Subtotaal excl. btw",
     vatLabel: "Btw 21%",
     inclVat: "Totaal incl. btw",
-    capacityNote: "Meer dan 12 personen? Dan komen wij naar je kantoor of locatie.",
+    capacityNote:
+      "Meer dan 12 personen? Dan komen wij naar je kantoor of locatie. De prijs is hetzelfde. Reizen binnen Amsterdam is inbegrepen, buiten Amsterdam wordt apart aangeboden.",
+    travelNote:
+      "Op jouw locatie is de prijs hetzelfde en wij nemen alle materialen mee. Reizen binnen Amsterdam is inbegrepen, buiten Amsterdam wordt apart aangeboden.",
     disclaimer:
-      "Alle prijzen zijn excl. 21% btw. Reizen buiten Amsterdam, merchandiseproductie en speciale materialen worden apart aangeboden.",
+      "Alle prijzen zijn excl. 21% btw. Merchandiseproductie en speciale materialen worden apart aangeboden.",
     sendCta: "Boek deze workshop",
   },
 

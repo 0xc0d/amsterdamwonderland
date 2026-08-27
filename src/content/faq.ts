@@ -31,7 +31,7 @@
 import type { Locale } from "../i18n";
 import type { FaqItem } from "../lib/seo";
 import type { WorkshopSlug } from "../lib/pricing";
-import { MIN_GROUP, MINIMUM_BOOKING, MODEL_FEE, PRICE_PER_PERSON, STUDIO_CAPACITY, STUDIO_RENT } from "../lib/pricing";
+import { MIN_GROUP, MINIMUM_BOOKING, MODEL_FEE, PRICE_PER_PERSON, STUDIO_CAPACITY } from "../lib/pricing";
 
 const LOW = Math.min(...Object.values(PRICE_PER_PERSON));
 const HIGH = Math.max(...Object.values(PRICE_PER_PERSON));
@@ -51,7 +51,7 @@ const generalEn: FaqItem[] = [
   },
   {
     q: "What does an art workshop in Amsterdam cost?",
-    a: `Between €${LOW} and €${HIGH} per person excl. VAT depending on the workshop, with a minimum booking of €${MINIMUM_BOOKING} excl. VAT. Studio rent is €${STUDIO_RENT} and the model drawing session adds a fixed €${MODEL_FEE} model fee. The custom workshop is quoted per occasion.`,
+    a: `Between €${LOW} and €${HIGH} per person excl. VAT depending on the workshop, with a minimum booking of €${MINIMUM_BOOKING} excl. VAT. That rate covers use of the atelier, all materials and guidance. The model drawing session adds a fixed €${MODEL_FEE} model fee. The custom workshop is quoted per occasion.`,
   },
   {
     q: "How long does a workshop take?",
@@ -98,7 +98,7 @@ const generalNl: FaqItem[] = [
   },
   {
     q: "Wat kost een kunstworkshop in Amsterdam?",
-    a: `Tussen €${LOW} en €${HIGH} per persoon excl. btw, afhankelijk van de workshop, met een minimale boeking van €${MINIMUM_BOOKING} excl. btw. Atelierhuur is €${STUDIO_RENT} en bij de modeltekensessie komt een vaste vergoeding van €${MODEL_FEE} voor het model erbij. De workshop op maat wordt per gelegenheid aangeboden.`,
+    a: `Tussen €${LOW} en €${HIGH} per persoon excl. btw, afhankelijk van de workshop, met een minimale boeking van €${MINIMUM_BOOKING} excl. btw. Dat tarief is inclusief het gebruik van het atelier, alle materialen en begeleiding. Bij de modeltekensessie komt een vaste vergoeding van €${MODEL_FEE} voor het model erbij. De workshop op maat wordt per gelegenheid aangeboden.`,
   },
   {
     q: "Hoe lang duurt een workshop?",

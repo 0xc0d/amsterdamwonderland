@@ -2,7 +2,7 @@
 import { t, type Locale } from "../i18n";
 import { getWorkshops } from "../content/workshops";
 import {
-  PRICE_PER_PERSON, MINIMUM_BOOKING, MODEL_FEE, STUDIO_RENT,
+  PRICE_PER_PERSON, MINIMUM_BOOKING, MODEL_FEE,
   VAT_RATE, STUDIO_CAPACITY, MIN_GROUP,
 } from "../lib/pricing";
 
@@ -16,18 +16,18 @@ const workshops = getWorkshops(locale).filter((w) => w.slug !== "custom");
 // Handed to the client script; keeps one source of truth for the numbers.
 const config = {
   prices: PRICE_PER_PERSON,
-  MINIMUM_BOOKING, MODEL_FEE, STUDIO_RENT, VAT_RATE, STUDIO_CAPACITY,
+  MINIMUM_BOOKING, MODEL_FEE, VAT_RATE, STUDIO_CAPACITY,
   labels: {
     perPerson: d.estimate.perPerson,
     people: d.estimate.people,
     subtotal: d.estimate.subtotal,
-    studioRent: d.estimate.studioRentLabel,
     minimum: d.estimate.minimumNote,
     modelFee: d.estimate.modelFeeLabel,
     exclVat: d.estimate.exclVat,
     vat: d.estimate.vatLabel,
     inclVat: d.estimate.inclVat,
     capacity: d.estimate.capacityNote,
+    travel: d.estimate.travelNote,
   },
   intl: locale === "nl" ? "nl-NL" : "en-IE",
 };
@@ -35,7 +35,7 @@ const config = {
 
 <form class="calc" id="calc" novalidate>
   <div class="controls">
-    <p class="field">
+    <p class="field field--workshop">
       <label class="eyebrow" for="f-workshop">{d.estimate.workshopLabel}</label>
       <select id="f-workshop" name="workshop">
         {workshops.map((w) => <option value={w.slug}>{w.title}</option>)}
@@ -74,21 +74,20 @@ const config = {
       }).format(n);
 
     /* Mirrors calculateEstimate() in src/lib/pricing.ts exactly:
-       studio rent BEFORE the minimum, model fee AFTER it, VAT last. */
-    function calc(slug, people, atStudio) {
+       minimum booking lifts the subtotal, model fee AFTER it, VAT last.
+       Location does not enter the price — see the note in pricing.ts. */
+    function calc(slug, people) {
       const n = Math.max(1, Math.floor(people || 0));
       const offSite = n > config.STUDIO_CAPACITY;
-      const inStudio = atStudio && !offSite;
       const ppp = config.prices[slug];
       const raw = ppp * n;
-      const rent = inStudio ? config.STUDIO_RENT : 0;
-      const sub = Math.max(raw + rent, config.MINIMUM_BOOKING);
+      const sub = Math.max(raw, config.MINIMUM_BOOKING);
       const fee = slug === "life-drawing" ? config.MODEL_FEE : 0;
       const ex = sub + fee;
       const vat = ex * config.VAT_RATE;
       return {
-        ppp, n, raw, rent, sub, fee, ex, vat, total: ex + vat,
-        minApplied: sub > raw + rent, offSite,
+        ppp, n, raw, sub, fee, ex, vat, total: ex + vat,
+        minApplied: sub > raw, offSite,
       };
     }
 
@@ -113,7 +112,7 @@ const config = {
       if (people > MAX_PEOPLE) people = MAX_PEOPLE;
       if (raw !== "" && String(people) !== raw) form.people.value = String(people);
       const wantsStudio = form.where.value === "studio";
-      const r = calc(slug, people, wantsStudio);
+      const r = calc(slug, people);
       const L = config.labels;
 
       // Above capacity the atelier is not an option; reflect that in the control.
@@ -123,13 +122,19 @@ const config = {
       let html = "";
       html += row(`${L.perPerson} × ${r.n} ${L.people}`, `${fmt(r.ppp)} × ${r.n}`);
       html += row(L.subtotal, fmt(r.raw));
-      if (r.rent) html += row(L.studioRent, fmt(r.rent));
       if (r.minApplied) html += row(L.minimum, fmt(r.sub), "note");
       if (r.fee) html += row(L.modelFee, fmt(r.fee));
       html += row(L.exclVat, fmt(r.ex), "strong");
       html += row(L.vat, fmt(r.vat));
       html += row(L.inclVat, fmt(r.total), "total");
-      if (r.offSite) html += `<p class="cap">${L.capacity}</p>`;
+      /* Location does not change the total any more, so without a note the
+         control would read as inert. The two notes are mutually exclusive:
+         the over-capacity one already covers coming to them, so stacking the
+         travel note under it would say "your location" twice. */
+      let note = "";
+      if (r.offSite) note = L.capacity;
+      else if (form.where.value === "yours") note = L.travel;
+      if (note) html += `<p class="cap">${note}</p>`;
       out.innerHTML = html;
     }
 
@@ -140,11 +145,22 @@ const config = {
 </script>
 
 <style>
-  .calc { display: grid; gap: var(--s3); }
+  .calc { display: grid; gap: var(--s3); container-type: inline-size; }
+  /* Workshop titles run to 37 characters ("Mixed media: artistieke
+     rollercoaster"), far longer than "18" or "Our atelier in Amsterdam". An
+     equal three-way split clipped the longest one mid-word, so the workshop
+     select takes a row of its own and the two short fields share the next.
+     Keyed to the form's own width rather than the viewport: .calcwrap is 8 of
+     12 columns above 800px and full width below, so it jumps NARROWER at
+     exactly the point a viewport media query would widen the fields. */
   .controls {
     display: grid;
     gap: var(--s2);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+    grid-template-columns: 1fr;
+  }
+  @container (min-width: 34rem) {
+    .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .field--workshop { grid-column: 1 / -1; }
   }
   .field { display: grid; gap: 0.45rem; margin: 0; }
   select, input {

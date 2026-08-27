@@ -1,8 +1,16 @@
 /**
  * Pricing model — ported from the original Lovable export
- * (lovable-export/src/lib/workshops.ts). The arithmetic is unchanged:
- * studio rent is added BEFORE the minimum booking is applied, the model fee
- * is added AFTER it, and VAT is applied last.
+ * (lovable-export/src/lib/workshops.ts).
+ *
+ * The per-person subtotal is lifted to the minimum booking, the model fee is
+ * added after it, and VAT is applied last.
+ *
+ * There used to be a separate €50 studio rent, added BEFORE the minimum, meant
+ * to make small groups viable. It was dropped: the minimum booking already
+ * does that job, and doing it twice made the fee misfire. Because rent landed
+ * inside the max(), it was fully absorbed at 6 people and charged in full at 9
+ * — the opposite of the intent. The per-person rate covers studio use,
+ * materials and guidance; the minimum booking is the floor. One rule.
  */
 
 export type WorkshopSlug = "merchandise" | "life-drawing" | "mixed-media" | "custom";
@@ -18,8 +26,6 @@ export type PricedSlug = Exclude<WorkshopSlug, "custom">;
 export const MINIMUM_BOOKING = 450;
 /** Fixed live-model fee for Life Drawing, excl. VAT, added after the minimum. */
 export const MODEL_FEE = 150;
-/** Studio rent, excl. VAT, added BEFORE the minimum booking is applied. */
-export const STUDIO_RENT = 50;
 export const VAT_RATE = 0.21;
 
 /**
@@ -41,7 +47,6 @@ export interface Estimate {
   pricePerPerson: number;
   participants: number;
   rawSubtotal: number;
-  studioRent: number;
   minimumApplied: boolean;
   workshopSubtotal: number;
   modelFee: number;
@@ -52,21 +57,13 @@ export interface Estimate {
   offSiteRequired: boolean;
 }
 
-export function calculateEstimate(
-  slug: PricedSlug,
-  participants: number,
-  atStudio = false,
-): Estimate {
+export function calculateEstimate(slug: PricedSlug, participants: number): Estimate {
   const people = Math.max(1, Math.floor(participants || 0));
   const offSiteRequired = people > STUDIO_CAPACITY;
-  // The atelier cannot host more than STUDIO_CAPACITY, so studio rent can only
-  // apply when the group actually fits in it.
-  const inStudio = atStudio && !offSiteRequired;
 
   const pricePerPerson = PRICE_PER_PERSON[slug];
   const rawSubtotal = pricePerPerson * people;
-  const studioRent = inStudio ? STUDIO_RENT : 0;
-  const workshopSubtotal = Math.max(rawSubtotal + studioRent, MINIMUM_BOOKING);
+  const workshopSubtotal = Math.max(rawSubtotal, MINIMUM_BOOKING);
   const modelFee = slug === "life-drawing" ? MODEL_FEE : 0;
   const subtotalExclVat = workshopSubtotal + modelFee;
   const vat = subtotalExclVat * VAT_RATE;
@@ -75,8 +72,7 @@ export function calculateEstimate(
     pricePerPerson,
     participants: people,
     rawSubtotal,
-    studioRent,
-    minimumApplied: workshopSubtotal > rawSubtotal + studioRent,
+    minimumApplied: workshopSubtotal > rawSubtotal,
     workshopSubtotal,
     modelFee,
     subtotalExclVat,

@@ -205,7 +205,7 @@ export const en = {
   estimate: {
     metaTitle: "Art Workshop Prices in Amsterdam | Wonderland Workshops",
     metaDescription:
-      "What an art workshop in Amsterdam costs. Pick a workshop, a group size and a location to see the price, including VAT, studio rent and the model fee.",
+      "What an art workshop in Amsterdam costs. Pick a workshop and a group size to see the price, including VAT, the minimum booking and the model fee.",
     eyebrow: "Prices",
     title: "What an art workshop costs",
     lead: "Pick a workshop and a group size to see the price. Then call or email us and we make it happen.",
@@ -217,15 +217,21 @@ export const en = {
     perPerson: "Per person",
     people: "people",
     subtotal: "Subtotal",
-    studioRentLabel: "Studio rent",
     minimumNote: `Minimum booking of €${MINIMUM_BOOKING} applied`,
     modelFeeLabel: "Live model fee",
     exclVat: "Subtotal excl. VAT",
     vatLabel: "VAT 21%",
     inclVat: "Total incl. VAT",
-    capacityNote: "More than 12 people? Then we come to your office or location.",
+    capacityNote:
+      "More than 12 people? Then we come to your office or location. The price is the same. Travel within Amsterdam is included, outside Amsterdam is quoted separately.",
+    /* Location does not change the price, so these say what it does change.
+       They carry the travel terms, which used to sit in the disclaimer below
+       the form: there they showed even for a workshop held in the atelier,
+       where travel cannot apply, and repeated the word twice in two lines. */
+    travelNote:
+      "At your location the price is the same and we bring all the materials. Travel within Amsterdam is included, outside Amsterdam is quoted separately.",
     disclaimer:
-      "All prices excl. 21% VAT. Travel outside Amsterdam, merchandise production and special materials are quoted separately.",
+      "All prices excl. 21% VAT. Merchandise production and special materials are quoted separately.",
     sendCta: "Book this workshop",
   },
 
