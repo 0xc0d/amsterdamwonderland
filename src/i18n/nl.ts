@@ -228,7 +228,7 @@ export const nl: Dict = {
     successBody: "We nemen zo snel mogelijk contact met je op.",
     errorBody: "Dat is niet verstuurd. Mail ons rechtstreeks.",
     orEmail: "Of mail ons rechtstreeks",
-    emailAddress: "mariemettezakelijk@gmail.com",
+    emailAddress: "info@amsterdamwonderland.nl",
     phoneLabel: "Telefoon",
     languagesLabel: "Talen",
     languagesValue: "Nederlands, Engels en een beetje Frans",
