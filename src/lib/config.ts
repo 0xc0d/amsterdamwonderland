@@ -35,7 +35,7 @@ export const POSTAL_CODE = "1012 DC";
  */
 export const GEO = { latitude: 52.3728361, longitude: 4.8985544 };
 
-export const EMAIL = "mariemettezakelijk@gmail.com";
+export const EMAIL = "info@amsterdamwonderland.nl";
 
 export const INSTAGRAM = "https://www.instagram.com/amsterdam_wonderland/";
 export const INSTAGRAM_HANDLE = "@amsterdam_wonderland";
