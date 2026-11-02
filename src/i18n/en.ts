@@ -254,7 +254,7 @@ export const en = {
     successBody: "We will get back to you as soon as we can.",
     errorBody: "That did not send. Please email us directly instead.",
     orEmail: "Or email us directly",
-    emailAddress: "mariemettezakelijk@gmail.com",
+    emailAddress: "info@amsterdamwonderland.nl",
     phoneLabel: "Phone",
     languagesLabel: "Languages",
     languagesValue: "Dutch, English and some French",
